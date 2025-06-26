@@ -1,0 +1,12 @@
+<property name="totalPremium" type="double" not-null="true">
+  <column name="total_premium" precision="10" scale="2"/>
+</property>
+
+<property name="amountPaid" type="big_decimal" not-null="true">
+  <column name="amount_paid" precision="10" scale="2" default="0.00"/>
+</property>
+
+<set name="claims" table="Claims" inverse="true" lazy="true">
+  <key column="subscribe_id" not-null="true"/>
+  <one-to-many class="com.java.jsf.provider.model.Claims"/>
+</set>

@@ -1,0 +1,81 @@
+package com.java.jsf.provider.daoImpl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
+import com.java.jsf.insurance.model.Subscribe;
+import com.java.jsf.insurance.model.SubscribedMember;
+import com.java.jsf.insurance.model.SubscriptionStatus;
+import com.java.jsf.insurance.model.SubscriptionType;
+import com.java.jsf.provider.dao.InsuranceDao;
+import com.java.jsf.provider.model.PatientInsuranceDetails;
+
+public class InsuranceDaoImpl implements InsuranceDao {
+
+    static SessionFactory sessionFactory;
+    static {
+        sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+    }
+
+    @Override
+    public List<PatientInsuranceDetails> showInsuranceOfRecipient(String recipientId) {
+        Session session = sessionFactory.openSession();
+        session.clear();
+
+        Query query = session.getNamedQuery("PatientInsuranceDetails.findByRecipientId");
+        query.setParameter("hId",recipientId);
+        List<Object[]> results = query.list();
+        List<PatientInsuranceDetails> detailsList = new ArrayList<>();
+        for (Object[] row : results) {
+            PatientInsuranceDetails details = new PatientInsuranceDetails();
+            details.setSubscribeId((String) row[0]); // subscribeId
+            details.sethId((String) row[1]);         // hId
+            details.setPatientName((String) row[2]);
+            details.setCompanyName((String) row[3]);
+            details.setPlanName((String) row[4]);
+            details.setEnrollmentDate((Date) row[5]);
+            details.setCoverageStartDate((Date) row[6]);
+            details.setCoverageEndDate((Date) row[7]);
+
+            SubscriptionStatus status = SubscriptionStatus.valueOf((String) row[8]);
+            SubscriptionType type = SubscriptionType.valueOf((String) row[9]);
+
+            details.setCoverageStatus(status);
+            details.setCoverageType(type);
+            details.setLimit((Double) row[10]);
+            details.setRemaining((Double) row[11]);
+            details.setClaimed((Double) row[12]);
+            details.setLastClaimDate((Date) row[13]);
+            if (type == SubscriptionType.FAMILY) {
+                Query memberQuery = session.getNamedQuery("SubscribedMember.findBySubscribeId");
+                memberQuery.setParameter("subscribeId", details.getSubscribeId());
+                List<Object[]> memberRows = memberQuery.list();
+                List<SubscribedMember> members = new ArrayList<>();
+                for (Object[] memberRow : memberRows) {
+                    SubscribedMember member = new SubscribedMember();
+                    member.setMemberId((String) memberRow[0]);
+                    Subscribe subscribe = new Subscribe();
+                    subscribe.setSubscribeId(details.getSubscribeId());
+                    member.setSubscribe(subscribe);
+                    member.setFullName((String) memberRow[1]);
+                    member.setAge((Integer) memberRow[2]);
+                    member.setGender((String) memberRow[3]);
+                    member.setRelationWithProposer((String) memberRow[4]);
+                    member.setAadharNo((String) memberRow[5]);
+                    members.add(member);
+                }
+                details.setSubscribedMembers(members);
+            } else {
+                details.setSubscribedMembers(new ArrayList<>());
+            }
+            // ✅ You missed this line!
+            detailsList.add(details);
+        }
+        session.close();
+        return detailsList;
+    }
+   }
