@@ -17,12 +17,6 @@
     <many-to-one name="provider" class="com.java.jsf.provider.model.Provider" column="provider_id" not-null="true" fetch="join"/>
 
     <many-to-one name="doctor" class="com.java.jsf.provider.model.Doctor" column="doctor_id" not-null="true" fetch="join"/>
-
-    <!-- Prescription Details -->
-    <property name="medicineName" column="medicine_name" type="string" not-null="true" length="255"/>
-    <property name="dosage" column="dosage" type="string" length="100"/>
-    <property name="duration" column="duration" type="string" length="100"/>
-    <property name="notes" column="notes" type="text"/>
     
     <!-- Timestamps -->
     <property name="writtenOn" column="written_on" type="timestamp" not-null="true"/>

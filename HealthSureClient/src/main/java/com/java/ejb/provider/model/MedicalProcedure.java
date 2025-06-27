@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-import com.java.ejb.insurance.model.Subscribe;
-import com.java.ejb.recipient.model.Recipient;
+import com.java.jsf.insurance.model.Subscribe;
+import com.java.jsf.recipient.model.Recipient;
 public class MedicalProcedure implements Serializable{
 
     private String procedureId;
@@ -22,13 +22,6 @@ public class MedicalProcedure implements Serializable{
     private Set<Claims> claims;
     private Set<ProcedureTest> tests;
     private Set<Prescription> prescriptions;
-    public MedicalProcedure() {
-        this.appointment = new Appointment();
-        this.recipient = new Recipient();
-        this.provider = new Provider();
-        this.doctor = new Doctor();
-    }
-
     // Getters and Setters
     public String getProcedureId() {
         return procedureId;
@@ -68,6 +61,7 @@ public class MedicalProcedure implements Serializable{
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
+
     public Date getProcedureDate() {
         return procedureDate;
     }

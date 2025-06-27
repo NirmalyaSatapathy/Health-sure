@@ -1,7 +1,8 @@
 package com.java.ejb.provider.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 import com.java.ejb.recipient.model.Recipient;
 
@@ -16,13 +17,9 @@ public class Prescription implements Serializable{
     private Doctor doctor;                 // mapped from doctor_id
 
     // Other fields
-    private String medicineName;
-    private String dosage;
-    private String duration;
-    private String notes;
-    private Date writtenOn;
-    private Date createdAt;
-
+    private Timestamp writtenOn;
+    private Timestamp createdAt;
+    private List<PrescribedMedicines> prescribedMedicines;
     // Getters and Setters
     public String getPrescriptionId() {
         return prescriptionId;
@@ -64,56 +61,19 @@ public class Prescription implements Serializable{
         this.doctor = doctor;
     }
 
-    public String getMedicineName() {
-        return medicineName;
-    }
-
-    public void setMedicineName(String medicineName) {
-        this.medicineName = medicineName;
-    }
-
-    public String getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public Date getWrittenOn() {
+    public Timestamp getWrittenOn() {
         return writtenOn;
     }
 
-    public Prescription() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public void setWrittenOn(Date writtenOn) {
+    public void setWrittenOn(Timestamp writtenOn) {
         this.writtenOn = writtenOn;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 }

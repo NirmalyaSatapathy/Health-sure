@@ -1,0 +1,6 @@
+package com.java.jsf.provider.model;
+
+public class PrescribedMedicines {
+private String prescribedId;
+private Pres
+}
