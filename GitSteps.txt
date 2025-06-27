@@ -1,0 +1,76 @@
+Great — here's a **clear, safe, step-by-step guide** to update code in your GitHub repo from your local folder.
+
+---
+
+## ✅ Steps to Update Your Code in GitHub Repo
+
+### 🔁 **Do these steps *inside your Git project folder***
+
+Example path:
+`C:\javaProgramming\Projects\nirmalya\Central-Project-Repo-HMS- - Copy (2)`
+
+You can navigate there using:
+
+```bash
+cd "/c/javaProgramming/Projects/nirmalya/Central-Project-Repo-HMS- - Copy (2)"
+```
+
+---
+
+### 🚀 Step-by-step Git Push Workflow
+
+#### 1️⃣ **Check current status:**
+
+```bash
+git status
+```
+
+This shows if you have modified or untracked files.
+
+---
+
+#### 2️⃣ **Stage all changes:**
+
+```bash
+git add .
+```
+
+This adds all new/modified files to the next commit.
+
+---
+
+#### 3️⃣ **Commit your changes:**
+
+```bash
+git commit -m "Describe what you updated"
+```
+
+> Example:
+> `"Updated procedure and insurance modules"`
+
+---
+
+#### 4️⃣ **Push to GitHub:**
+
+```bash
+git push origin main
+```
+
+This sends your changes to your GitHub repo’s `main` branch.
+
+---
+
+### ✅ Final Output
+
+If everything worked, you'll see something like:
+
+```
+To https://github.com/NirmalyaSatapathy/Health-sure.git
+   abc1234..def5678  main -> main
+```
+
+Now your GitHub repo is fully updated with your local code! 🟢
+
+---
+
+Would you like a [Git command cheat sheet PDF](f) for offline reference?
