@@ -1,0 +1,107 @@
+package com.java.ejb.provider.model;
+
+import java.util.Date;
+
+public class MedicalProcedure {
+
+    private String procedureId;
+    private String appointmentId;
+    private String hId;
+    private String providerId;
+    private String doctorId;
+    private Date procedureDate;
+    private String diagnosis;
+    private String recommendations;
+    private Date fromDate;
+    private Date toDate;
+    private Date createdAt;
+
+    // Getters and Setters
+    public String getProcedureId() {
+        return procedureId;
+    }
+
+    public void setProcedureId(String procedureId) {
+        this.procedureId = procedureId;
+    }
+
+    public String getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public String gethId() {
+        return hId;
+    }
+
+    public void sethId(String hId) {
+        this.hId = hId;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public Date getProcedureDate() {
+        return procedureDate;
+    }
+
+    public void setProcedureDate(Date procedureDate) {
+        this.procedureDate = procedureDate;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(String recommendations) {
+        this.recommendations = recommendations;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+}

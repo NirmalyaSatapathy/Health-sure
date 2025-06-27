@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import com.java.ejb.provider.dao.ProviderDao;
 import com.java.ejb.provider.model.MedicalProcedure;
+import com.java.ejb.provider.model.PrescribedMedicines;
 import com.java.ejb.provider.model.Prescription;
 import com.java.ejb.provider.model.ProcedureTest;
 import com.java.ejb.util.ConnectionHelper;
@@ -56,8 +57,8 @@ public class ProviderDaoImpl implements ProviderDao{
 	    Connection con = ConnectionHelper.getConnection();
 	    String sql = "INSERT INTO prescription (" +
 	                 "prescription_id, procedure_id, h_id, provider_id, doctor_id, " +
-	                 "medicine_name, dosage, duration, notes, written_on, created_at) " +
-	                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	                 "written_on, created_at) " +
+	                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 	    PreparedStatement pst = con.prepareStatement(sql);
 
@@ -66,11 +67,6 @@ public class ProviderDaoImpl implements ProviderDao{
 	    pst.setString(3, prescription.getRecipient().gethId());
 	    pst.setString(4, prescription.getProvider().getProviderId());
 	    pst.setString(5, prescription.getDoctor().getDoctorId());
-	    pst.setString(6, prescription.getMedicineName());
-	    pst.setString(7, prescription.getDosage());
-	    pst.setString(8, prescription.getDuration());
-	    pst.setString(9, prescription.getNotes());
-
 	    if (prescription.getWrittenOn() != null) {
 	        pst.setTimestamp(10, new java.sql.Timestamp(prescription.getWrittenOn().getTime()));
 	    } else {
@@ -127,6 +123,37 @@ public class ProviderDaoImpl implements ProviderDao{
 
 	    return "inserted";
 	}
+
+	@Override
+	public String addPrescribedMedicines(PrescribedMedicines prescribedMedicines) throws ClassNotFoundException, SQLException {
+	    Connection con = ConnectionHelper.getConnection();
+
+	    String sql = "INSERT INTO prescribed_medicines (" +
+	                 "prescribed_id, prescription_id, medicine_name, dosage, duration, notes, created_at) " +
+	                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+	    PreparedStatement pst = con.prepareStatement(sql);
+
+	    pst.setString(1, prescribedMedicines.getPrescribedId());
+	    pst.setString(2, prescribedMedicines.getPrescription().getPrescriptionId());
+	    pst.setString(3, prescribedMedicines.getMedicineName());
+	    pst.setString(4, prescribedMedicines.getDosage());
+	    pst.setString(5, prescribedMedicines.getDuration());
+	    pst.setString(6, prescribedMedicines.getNotes());
+
+	    if (prescribedMedicines.getCreatedAt() != null) {
+	        pst.setTimestamp(7, new java.sql.Timestamp(prescribedMedicines.getCreatedAt().getTime()));
+	    } else {
+	        pst.setTimestamp(7, new java.sql.Timestamp(System.currentTimeMillis()));
+	    }
+
+	    pst.executeUpdate();
+	    pst.close();
+	    con.close();
+
+	    return "inserted";
+	}
+
 
 
 }
