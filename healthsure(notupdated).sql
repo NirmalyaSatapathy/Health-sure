@@ -177,7 +177,6 @@ CREATE TABLE procedure_test (
     test_name VARCHAR(100) NOT NULL,
     test_date DATE NOT NULL,
     result_summary TEXT,
-    status VARCHAR(50) DEFAULT 'Completed',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (procedure_id) REFERENCES medical_procedure(procedure_id)
 );
