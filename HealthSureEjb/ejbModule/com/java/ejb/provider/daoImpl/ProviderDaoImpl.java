@@ -68,15 +68,15 @@ public class ProviderDaoImpl implements ProviderDao{
 	    pst.setString(4, prescription.getProvider().getProviderId());
 	    pst.setString(5, prescription.getDoctor().getDoctorId());
 	    if (prescription.getWrittenOn() != null) {
-	        pst.setTimestamp(10, new java.sql.Timestamp(prescription.getWrittenOn().getTime()));
+	        pst.setTimestamp(6, new java.sql.Timestamp(prescription.getWrittenOn().getTime()));
 	    } else {
-	        pst.setTimestamp(10, null);
+	        pst.setTimestamp(6, null);
 	    }
 
 	    if (prescription.getCreatedAt() != null) {
-	        pst.setTimestamp(11, new java.sql.Timestamp(prescription.getCreatedAt().getTime()));
+	        pst.setTimestamp(7, new java.sql.Timestamp(prescription.getCreatedAt().getTime()));
 	    } else {
-	        pst.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis()));
+	        pst.setTimestamp(7, new java.sql.Timestamp(System.currentTimeMillis()));
 	    }
 
 	    pst.executeUpdate();
@@ -92,8 +92,8 @@ public class ProviderDaoImpl implements ProviderDao{
 	    Connection con = ConnectionHelper.getConnection();
 
 	    String sql = "INSERT INTO procedure_test (" +
-	                 "test_id, procedure_id, test_name, test_date, result_summary, status, created_at) " +
-	                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
+	                 "test_id, procedure_id, test_name, test_date, result_summary, created_at) " +
+	                 "VALUES (?, ?, ?, ?, ?, ?)";
 
 	    PreparedStatement pst = con.prepareStatement(sql);
 
@@ -109,12 +109,11 @@ public class ProviderDaoImpl implements ProviderDao{
 	    }
 
 	    pst.setString(5, procedureTest.getResultSummary());
-	    pst.setString(6, procedureTest.getStatus());
 
 	    if (procedureTest.getCreatedAt() != null) {
-	        pst.setTimestamp(7, new java.sql.Timestamp(procedureTest.getCreatedAt().getTime()));
+	        pst.setTimestamp(6, new java.sql.Timestamp(procedureTest.getCreatedAt().getTime()));
 	    } else {
-	        pst.setTimestamp(7, new java.sql.Timestamp(System.currentTimeMillis()));
+	        pst.setTimestamp(6, new java.sql.Timestamp(System.currentTimeMillis()));
 	    }
 
 	    pst.executeUpdate();

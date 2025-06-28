@@ -2,6 +2,7 @@ package com.java.ejb.provider.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import com.java.ejb.recipient.model.Recipient;
@@ -17,8 +18,8 @@ public class Prescription implements Serializable{
     private Doctor doctor;                 // mapped from doctor_id
 
     // Other fields
-    private Timestamp writtenOn;
-    private Timestamp createdAt;
+    private Date writtenOn;
+    private Date createdAt;
     private List<PrescribedMedicines> prescribedMedicines;
     // Getters and Setters
     public String getPrescriptionId() {
@@ -61,19 +62,25 @@ public class Prescription implements Serializable{
         this.doctor = doctor;
     }
 
-    public Timestamp getWrittenOn() {
+    public Date getWrittenOn() {
         return writtenOn;
     }
 
-    public void setWrittenOn(Timestamp writtenOn) {
+    public void setWrittenOn(Date writtenOn) {
         this.writtenOn = writtenOn;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+    public Prescription() {
+        this.procedure = new MedicalProcedure();
+        this.recipient = new Recipient();
+        this.provider = new Provider();
+        this.doctor = new Doctor();
     }
 }

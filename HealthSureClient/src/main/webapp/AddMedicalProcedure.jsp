@@ -161,12 +161,9 @@
             </div>
 
             <div class="button-group">
-                <h:commandButton value="Add Test"
+                <h:commandButton value="Add Procedure"
                                  styleClass="custom-button green-button"
-                                 action="#{providerController.addMedicalProcedureControllerTest(medicalProcedure)}" />
-                <h:commandButton value="Add Prescription"
-                                 styleClass="custom-button"
-                                 action="#{providerController.addMedicalProcedureControllerPrescription(medicalProcedure)}" />
+                                 action="#{providerController.addMedicalProcedureController(medicalProcedure)}" />
             </div>
         </h:form>
     </div>

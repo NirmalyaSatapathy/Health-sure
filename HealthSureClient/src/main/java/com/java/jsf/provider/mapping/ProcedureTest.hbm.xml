@@ -16,7 +16,6 @@
     <property name="testName" column="test_name" type="string" not-null="true" length="100"/>
     <property name="testDate" column="test_date" type="date" not-null="true"/>
     <property name="resultSummary" column="result_summary" type="text"/>
-    <property name="status" column="status" type="string" not-null="true" length="50"/>
     <property name="createdAt" column="created_at" type="timestamp" not-null="true"/>
   </class>
 </hibernate-mapping>

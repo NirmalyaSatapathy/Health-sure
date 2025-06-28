@@ -40,6 +40,11 @@
     <managed-bean-scope>view</managed-bean-scope>
 </managed-bean>
 <managed-bean>
+	<managed-bean-name>prescribedMedicine</managed-bean-name>
+    <managed-bean-class>com.java.ejb.provider.model.PrescribedMedicines</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+</managed-bean>
+<managed-bean>
 	<managed-bean-name>procedureTest</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.model.ProcedureTest</managed-bean-class>
     <managed-bean-scope>view</managed-bean-scope>

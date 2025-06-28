@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 
 import com.java.ejb.provider.bean.ProviderEjbImpl;
 import com.java.ejb.provider.model.MedicalProcedure;
+import com.java.ejb.provider.model.PrescribedMedicines;
 import com.java.ejb.provider.model.Prescription;
 import com.java.ejb.provider.model.ProcedureTest;
 import com.java.jsf.provider.daoImpl.InsuranceDaoImpl;
@@ -52,16 +53,15 @@ public ProviderController() {
 	super();
 	// TODO Auto-generated constructor stub
 }
-public String addMedicalProcedureControllerPrescription(MedicalProcedure medicalProcedure) throws ClassNotFoundException, SQLException
+public String addMedicalProcedureController(MedicalProcedure medicalProcedure) throws ClassNotFoundException, SQLException
 {
 	System.out.println("in controller");
-	 providerEjb.addMedicalProcedure(medicalProcedure);
-	 return "AddPrescription?faces-redirect=true";
+	 return  providerEjb.addMedicalProcedure(medicalProcedure);
 }
-public String addMedicalProcedureControllerTest(MedicalProcedure medicalProcedure) throws ClassNotFoundException, SQLException
+public String addPresribedMedicinesController(PrescribedMedicines prescribedMedicines) throws ClassNotFoundException, SQLException
 {
-	 providerEjb.addMedicalProcedure(medicalProcedure);
-	 return "AddTest?faces-redirect=true";
+	
+	return providerEjb.addPrescribedMedicines(prescribedMedicines);
 }
 public String addPrescriptionController(Prescription prescription) throws ClassNotFoundException, SQLException
 {
@@ -70,6 +70,14 @@ public String addPrescriptionController(Prescription prescription) throws ClassN
 public String addTestController(ProcedureTest procedureTest) throws ClassNotFoundException, SQLException
 {
 	return providerEjb.addTest(procedureTest);
+}
+public String procedureSubmit()
+{
+	return "ProviderDashboard?faces-redirect=true";
+}
+public String prescribedMedicinesSubmit()
+{
+	return "ProcedureDashboard?faces-redirect=true";
 }
 public List<PatientInsuranceDetails> showInsuranceDetailsController(String hId)
 {

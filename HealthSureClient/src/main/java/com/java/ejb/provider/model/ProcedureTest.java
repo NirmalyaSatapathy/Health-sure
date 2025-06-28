@@ -9,13 +9,7 @@ public class ProcedureTest implements Serializable{
     private String testName;
     private Date testDate;
     private String resultSummary;
-    private String status;
     private Date createdAt;
-
-    public ProcedureTest() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	// Getters and Setters
     public String getTestId() {
@@ -57,15 +51,6 @@ public class ProcedureTest implements Serializable{
     public void setResultSummary(String resultSummary) {
         this.resultSummary = resultSummary;
     }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -73,4 +58,8 @@ public class ProcedureTest implements Serializable{
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+    public ProcedureTest() {
+        this.procedure = new MedicalProcedure(); // ensures it won't be null
+    }
+
 }

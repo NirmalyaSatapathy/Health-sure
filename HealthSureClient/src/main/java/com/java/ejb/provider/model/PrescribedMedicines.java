@@ -1,8 +1,9 @@
 package com.java.ejb.provider.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PrescribedMedicines {
+public class PrescribedMedicines implements Serializable{
 private String prescribedId;
 private Prescription prescription;
 private String medicineName;
@@ -64,9 +65,9 @@ public PrescribedMedicines(String prescribedId, Prescription prescription, Strin
 	this.createdAt = createdAt;
 }
 public PrescribedMedicines() {
-	super();
-	// TODO Auto-generated constructor stub
+    this.prescription = new Prescription();  // prevents null when calling prescription.prescriptionId
 }
+
 @Override
 public String toString() {
 	return "PrescribedMedicines [prescribedId=" + prescribedId + ", prescription=" + prescription + ", medicineName="

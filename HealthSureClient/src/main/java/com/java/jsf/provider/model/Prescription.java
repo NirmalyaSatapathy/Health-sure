@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.java.jsf.provider.model.Doctor;
+import com.java.jsf.provider.model.MedicalProcedure;
+import com.java.jsf.provider.model.Provider;
 import com.java.jsf.recipient.model.Recipient;
 
 public class Prescription implements Serializable{
@@ -75,5 +78,11 @@ public class Prescription implements Serializable{
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+    public Prescription() {
+        this.procedure = new MedicalProcedure();
+        this.recipient = new Recipient();
+        this.provider = new Provider();
+        this.doctor = new Doctor();
     }
 }

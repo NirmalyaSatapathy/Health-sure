@@ -21,23 +21,23 @@ public class ProviderEjbImpl {
 	}
 
 	public String addMedicalProcedure(MedicalProcedure medicalProcedure) throws ClassNotFoundException, SQLException {
-
-		return remote.addMedicalProcedure(medicalProcedure);
+		remote.addMedicalProcedure(medicalProcedure);
+		return "ProcedureDashboard?faces-redirect=true";
 	}
 
 	public String addPrescription(Prescription prescription) throws ClassNotFoundException, SQLException {
 		remote.addPrescription(prescription);
-		return "AddPrescription?faces-redirect=true";
+		return "AddPrescribedMedicine?faces-redirect=true";
 	}
 
 	public String addTest(ProcedureTest test) throws ClassNotFoundException, SQLException {
 		remote.addTest(test);
-		return "AddTest?faces-redirect=true";
+		return "ProcedureDashboard?faces-redirect=true";
 	}
 
 	public String addPrescribedMedicines(PrescribedMedicines prescribedMedicine)
 			throws ClassNotFoundException, SQLException {
 		remote.addPrescribedMedicines(prescribedMedicine);
-		return null;
+		return "PrescribedMedicinesDashboard?faces-redirect=true";
 	}
 }

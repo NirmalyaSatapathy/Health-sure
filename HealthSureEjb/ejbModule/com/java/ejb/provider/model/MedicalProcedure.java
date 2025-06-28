@@ -6,6 +6,9 @@ import java.util.Set;
 
 import com.java.ejb.insurance.model.Subscribe;
 import com.java.ejb.recipient.model.Recipient;
+import com.java.ejb.provider.model.Appointment;
+import com.java.ejb.provider.model.Doctor;
+import com.java.ejb.provider.model.Provider;
 public class MedicalProcedure implements Serializable{
 
     private String procedureId;
@@ -19,10 +22,6 @@ public class MedicalProcedure implements Serializable{
     private String recommendations;
     private Date fromDate;
     private Date toDate;
-    public MedicalProcedure() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	private Date createdAt;
     private Set<Claims> claims;
@@ -147,4 +146,18 @@ public class MedicalProcedure implements Serializable{
     public void setPrescriptions(Set<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
+    public MedicalProcedure() {
+        this.appointment = new Appointment();
+        this.recipient = new Recipient();
+        this.provider = new Provider();
+        this.doctor = new Doctor();
+    }
+	@Override
+	public String toString() {
+		return "MedicalProcedure [procedureId=" + procedureId + ", appointment=" + appointment + ", recipient="
+				+ recipient + ", provider=" + provider + ", doctor=" + doctor + ", procedureDate=" + procedureDate
+				+ ", diagnosis=" + diagnosis + ", recommendations=" + recommendations + ", fromDate=" + fromDate
+				+ ", toDate=" + toDate + ", createdAt=" + createdAt + ", claims=" + claims + ", tests=" + tests
+				+ ", prescriptions=" + prescriptions + "]";
+	}
 }

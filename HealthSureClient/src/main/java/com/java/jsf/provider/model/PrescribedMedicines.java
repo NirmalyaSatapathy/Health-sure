@@ -64,9 +64,9 @@ public PrescribedMedicines(String prescribedId, Prescription prescription, Strin
 	this.createdAt = createdAt;
 }
 public PrescribedMedicines() {
-	super();
-	// TODO Auto-generated constructor stub
+    this.prescription = new Prescription();  // prevents null when calling prescription.prescriptionId
 }
+
 @Override
 public String toString() {
 	return "PrescribedMedicines [prescribedId=" + prescribedId + ", prescription=" + prescription + ", medicineName="

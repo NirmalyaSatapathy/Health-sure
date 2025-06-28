@@ -9,7 +9,6 @@ public class ProcedureTest implements Serializable{
     private String testName;
     private Date testDate;
     private String resultSummary;
-    private String status;
     private Date createdAt;
 
     // Getters and Setters
@@ -53,14 +52,6 @@ public class ProcedureTest implements Serializable{
         this.resultSummary = resultSummary;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -68,4 +59,8 @@ public class ProcedureTest implements Serializable{
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+    public ProcedureTest() {
+        this.procedure = new MedicalProcedure(); // ensures it won't be null
+    }
+
 }
