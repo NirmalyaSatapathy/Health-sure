@@ -9,6 +9,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+import com.java.ejb.provider.model.Doctor;
+import com.java.ejb.provider.model.Provider;
+import com.java.ejb.recipient.model.Recipient;
 import com.java.jsf.insurance.model.Subscribe;
 import com.java.jsf.insurance.model.SubscribedMember;
 import com.java.jsf.insurance.model.SubscriptionStatus;
@@ -34,6 +37,16 @@ public class InsuranceDaoImpl implements InsuranceDao {
         List<PatientInsuranceDetails> detailsList = new ArrayList<>();
 
         for (Object[] row : results) {
+            // Enums: ensure DB has UPPERCASE values
+            SubscriptionStatus status = SubscriptionStatus.valueOf(((String) row[8]).toUpperCase());
+
+            // Only continue if status is ACTIVE
+            if (status != SubscriptionStatus.ACTIVE) {
+                continue;
+            }
+
+            SubscriptionType type = SubscriptionType.valueOf(((String) row[9]).toUpperCase());
+
             PatientInsuranceDetails details = new PatientInsuranceDetails();
             details.setSubscribeId((String) row[0]);      // subscribeId
             details.sethId((String) row[1]);              // hId
@@ -43,14 +56,8 @@ public class InsuranceDaoImpl implements InsuranceDao {
             details.setEnrollmentDate((Date) row[5]);     // enrollment
             details.setCoverageStartDate((Date) row[6]);  // start date
             details.setCoverageEndDate((Date) row[7]);    // end date
-
-            // Enums: ensure DB has UPPERCASE values
-            SubscriptionStatus status = SubscriptionStatus.valueOf(((String) row[8]).toUpperCase());
-            SubscriptionType type = SubscriptionType.valueOf(((String) row[9]).toUpperCase());
-
             details.setCoverageStatus(status);
             details.setCoverageType(type);
-
             details.setCoverageLimit((Double) row[10]);
             details.setRemaining((Double) row[11]);
             details.setClaimed((Double) row[12]);
@@ -61,23 +68,23 @@ public class InsuranceDaoImpl implements InsuranceDao {
                 Query memberQuery = session.getNamedQuery("SubscribedMember.findBySubscribeId");
                 memberQuery.setParameter("subscribeId", details.getSubscribeId());
 
-                // FIX: expect SubscribedMember list, not Object[]
                 List<SubscribedMember> memberRows = memberQuery.list();
                 List<SubscribedMember> members = new ArrayList<>();
 
                 for (SubscribedMember member : memberRows) {
-                    // Set Subscribe manually if JOIN not used
                     Subscribe subscribe = new Subscribe();
                     subscribe.setSubscribeId(details.getSubscribeId());
                     member.setSubscribe(subscribe);
                     members.add(member);
                 }
+
                 System.out.println("printing members");
                 System.out.println(members);
                 details.setSubscribedMembers(members);
             } else {
                 details.setSubscribedMembers(new ArrayList<>());
             }
+
             System.out.println("printing details for a single insurance");
             System.out.println(details);
             detailsList.add(details);
@@ -86,4 +93,7 @@ public class InsuranceDaoImpl implements InsuranceDao {
         session.close();
         return detailsList;
     }
+
+
+
 }

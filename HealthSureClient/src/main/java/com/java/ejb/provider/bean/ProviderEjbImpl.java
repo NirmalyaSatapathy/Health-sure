@@ -1,13 +1,18 @@
 package com.java.ejb.provider.bean;
 
 import java.sql.SQLException;
+import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
+import com.java.ejb.provider.model.Doctor;
 import com.java.ejb.provider.model.MedicalProcedure;
 import com.java.ejb.provider.model.PrescribedMedicines;
 import com.java.ejb.provider.model.Prescription;
 import com.java.ejb.provider.model.ProcedureTest;
+import com.java.ejb.provider.model.Provider;
+import com.java.ejb.recipient.model.Recipient;
 
 public class ProviderEjbImpl {
 	static ProviderBeanRemote remote;
@@ -21,14 +26,23 @@ public class ProviderEjbImpl {
 	}
 
 	public String addMedicalProcedure(MedicalProcedure medicalProcedure) throws ClassNotFoundException, SQLException {
+		// Store key fields in session map
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		sessionMap.put("procedureId", medicalProcedure.getProcedureId());
+		sessionMap.put("providerId", medicalProcedure.getProvider().getProviderId());
+		sessionMap.put("doctorId", medicalProcedure.getDoctor().getDoctorId());
+		sessionMap.put("recipientHid", medicalProcedure.getRecipient().gethId());
 		remote.addMedicalProcedure(medicalProcedure);
 		return "ProcedureDashboard?faces-redirect=true";
 	}
 
 	public String addPrescription(Prescription prescription) throws ClassNotFoundException, SQLException {
-		remote.addPrescription(prescription);
-		return "AddPrescribedMedicine?faces-redirect=true";
+	    // Save via remote EJB
+	    remote.addPrescription(prescription);
+
+	    return "AddPrescribedMedicine?faces-redirect=true";
 	}
+
 
 	public String addTest(ProcedureTest test) throws ClassNotFoundException, SQLException {
 		remote.addTest(test);

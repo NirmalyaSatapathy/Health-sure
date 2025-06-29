@@ -94,38 +94,49 @@
         .green-button:hover {
             background-color: #388e3c;
         }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 12px;
+            margin-top: 3px;
+        }
     </style>
 </head>
 <body>
 <f:view>
     <div class="container">
-        <h:form>
+        <h:form prependId="false">
             <h2>Add Medical Procedure</h2>
 
             <div class="form-grid">
                 <div class="form-group">
                     <h:outputLabel for="procedureId" value="Procedure ID:" />
                     <h:inputText id="procedureId" value="#{medicalProcedure.procedureId}" required="true" />
+                    <h:message for="procedureId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="appointmentId" value="Appointment ID:" />
                     <h:inputText id="appointmentId" value="#{medicalProcedure.appointment.appointmentId}" required="true" />
+                    <h:message for="appointmentId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="recipientId" value="Recipient (h_id):" />
                     <h:inputText id="recipientId" value="#{medicalProcedure.recipient.hId}" required="true" />
+                    <h:message for="recipientId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="providerId" value="Provider ID:" />
                     <h:inputText id="providerId" value="#{medicalProcedure.provider.providerId}" required="true" />
+                    <h:message for="providerId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="doctorId" value="Doctor ID:" />
                     <h:inputText id="doctorId" value="#{medicalProcedure.doctor.doctorId}" required="true" />
+                    <h:message for="doctorId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
@@ -133,16 +144,19 @@
                     <h:inputText id="procedureDate" value="#{medicalProcedure.procedureDate}">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
+                    <h:message for="procedureDate" styleClass="error-message" />
                 </div>
 
                 <div class="form-group full-width">
                     <h:outputLabel for="diagnosis" value="Diagnosis:" />
                     <h:inputTextarea id="diagnosis" value="#{medicalProcedure.diagnosis}" required="true" />
+                    <h:message for="diagnosis" styleClass="error-message" />
                 </div>
 
                 <div class="form-group full-width">
                     <h:outputLabel for="recommendations" value="Recommendations:" />
                     <h:inputTextarea id="recommendations" value="#{medicalProcedure.recommendations}" />
+                    <h:message for="recommendations" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
@@ -150,6 +164,7 @@
                     <h:inputText id="fromDate" value="#{medicalProcedure.fromDate}">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
+                    <h:message for="fromDate" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
@@ -157,6 +172,7 @@
                     <h:inputText id="toDate" value="#{medicalProcedure.toDate}">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
+                    <h:message for="toDate" styleClass="error-message" />
                 </div>
             </div>
 

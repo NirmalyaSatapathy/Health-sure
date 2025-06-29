@@ -26,7 +26,14 @@ public class Provider implements Serializable{
 	public void setPaymentHistory(Set<PaymentHistory> paymentHistory) {
 		this.paymentHistory = paymentHistory;
 	}
-    // Relationships
+    @Override
+	public String toString() {
+		return "Provider [providerId=" + providerId + ", name=" + name + ", type=" + type + ", contactNumber="
+				+ contactNumber + ", address=" + address + ", email=" + email + ", paymentHistory=" + paymentHistory
+				+ ", doctors=" + doctors + ", procedures=" + procedures + ", appointments=" + appointments
+				+ ", prescriptions=" + prescriptions + ", claims=" + claims + "]";
+	}
+	// Relationships
     private List<Doctor> doctors;
     public List<Doctor> getDoctors() {
 		return doctors;

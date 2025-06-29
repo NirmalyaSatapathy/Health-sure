@@ -90,7 +90,7 @@
 <body>
 <f:view>
     <div class="container">
-        <h:form>
+        <h:form prependId="false">
             <h2>Add Prescription Details</h2>
 
             <div class="form-grid">
@@ -101,33 +101,31 @@
 
                 <div class="form-group">
                     <h:outputLabel for="procedureId" value="Procedure ID:" />
-                    <h:inputText id="procedureId" value="#{prescription.procedure.procedureId}" required="true" />
+                  <h:inputText id="procedureId" value="#{sessionScope.procedureId}" readonly="true" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="recipientId" value="Recipient ID:" />
-                    <h:inputText id="recipientId" value="#{prescription.recipient.hId}" required="true" />
+                    <h:inputText id="recipientId" value="#{sessionScope.recipientHid}" readonly="true" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="providerId" value="Provider ID:" />
-                    <h:inputText id="providerId" value="#{prescription.provider.providerId}" required="true" />
+                   <h:inputText id="providerId" value="#{sessionScope.providerId}" readonly="true" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="doctorId" value="Doctor ID:" />
-                    <h:inputText id="doctorId" value="#{prescription.doctor.doctorId}" required="true" />
+                   <h:inputText id="doctorId" value="#{sessionScope.doctorId}" readonly="true" />
                 </div>
             </div>
 			<div class="form-group" style="grid-column: span 2;">
     <h:outputLabel for="writtenOn" value="Written On (Date):" />
-    <h:inputText id="writtenOn" value="#{prescription.writtenOn}">
+    <h:inputText id="writtenOn" value="#{prescription.writtenOn}" required="true" requiredMessage="Written On date is required.">
         <f:convertDateTime pattern="yyyy-MM-dd" />
     </h:inputText>
     <h:message for="writtenOn" style="color:red; font-size:12px;" />
 </div>
-
-<h:message for="writtenOn" />
 			
             <div class="button-group">
                 <h:commandButton value="Save Prescription"

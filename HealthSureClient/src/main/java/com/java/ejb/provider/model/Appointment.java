@@ -18,7 +18,15 @@ public class Appointment implements Serializable{
     private String status;
     private String notes;
 
-    // One-to-many: One appointment can have multiple procedures
+    @Override
+	public String toString() {
+		return "Appointment [appointmentId=" + appointmentId + ", doctor=" + doctor + ", recipient=" + recipient
+				+ ", availability=" + availability + ", provider=" + provider + ", requestedAt=" + requestedAt
+				+ ", bookedAt=" + bookedAt + ", status=" + status + ", notes=" + notes + ", procedures=" + procedures
+				+ "]";
+	}
+
+	// One-to-many: One appointment can have multiple procedures
     private Set<MedicalProcedure> procedures;
 
     // Getters and Setters

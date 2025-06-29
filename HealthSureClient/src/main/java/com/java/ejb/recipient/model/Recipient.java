@@ -99,7 +99,17 @@ public class Recipient implements Serializable{
     public Date getPasswordUpdatedAt() { return passwordUpdatedAt; }
     public void setPasswordUpdatedAt(Date passwordUpdatedAt) { this.passwordUpdatedAt = passwordUpdatedAt; }
 
-    public Set<Subscribe> getSubscriptions() { return subscriptions; }
+    @Override
+	public String toString() {
+		return "Recipient [hId=" + hId + ", firstName=" + firstName + ", lastName=" + lastName + ", mobile=" + mobile
+				+ ", userName=" + userName + ", gender=" + gender + ", dob=" + dob + ", address=" + address
+				+ ", createdAt=" + createdAt + ", password=" + password + ", email=" + email + ", status=" + status
+				+ ", loginAttempts=" + loginAttempts + ", lockedUntil=" + lockedUntil + ", lastLogin=" + lastLogin
+				+ ", passwordUpdatedAt=" + passwordUpdatedAt + ", paymentHistory=" + paymentHistory + ", appointments="
+				+ appointments + ", subscriptions=" + subscriptions + ", medicalProcedures=" + medicalProcedures
+				+ ", claims=" + claims + "]";
+	}
+	public Set<Subscribe> getSubscriptions() { return subscriptions; }
     public void setSubscriptions(Set<Subscribe> subscriptions) { this.subscriptions = subscriptions; }
 
     public Set<MedicalProcedure> getMedicalProcedures() { return medicalProcedures; }

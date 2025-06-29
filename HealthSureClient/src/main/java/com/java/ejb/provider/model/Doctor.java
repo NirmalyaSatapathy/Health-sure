@@ -15,6 +15,14 @@ public class Doctor implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	@Override
+	public String toString() {
+		return "Doctor [doctorId=" + doctorId + ", providerId=" + providerId + ", doctorName=" + doctorName
+				+ ", qualification=" + qualification + ", specialization=" + specialization + ", licenseNo=" + licenseNo
+				+ ", email=" + email + ", address=" + address + ", gender=" + gender + ", password=" + password
+				+ ", loginStatus=" + loginStatus + ", doctorStatus=" + doctorStatus + ", provider=" + provider
+				+ ", procedures=" + procedures + ", prescriptions=" + prescriptions + "]";
+	}
 	private String email;
     private String address;
     private String gender;
