@@ -62,7 +62,6 @@
             <h:form>
                 <div class="nav-links">
                     <h:commandLink value="Add Prescription" action="AddPrescription" styleClass="nav-link" />
-                    <h:commandLink value="Add Test" action="AddTest" styleClass="nav-link" />
                 </div>
 
                 <div class="nav-actions">

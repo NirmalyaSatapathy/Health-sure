@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ProcedureTest implements Serializable{
     private String testId;
-    private MedicalProcedure procedure;
+    private Prescription prescription;
     private String testName;
     private Date testDate;
     private String resultSummary;
@@ -20,12 +20,12 @@ public class ProcedureTest implements Serializable{
         this.testId = testId;
     }
 
-    public MedicalProcedure getProcedure() {
-        return procedure;
+    public Prescription getProcedure() {
+        return prescription;
     }
 
-    public void setProcedure(MedicalProcedure procedure) {
-        this.procedure = procedure;
+    public void setProcedure(Prescription prescription) {
+        this.prescription = prescription;
     }
 
     public String getTestName() {
@@ -55,11 +55,19 @@ public class ProcedureTest implements Serializable{
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public Prescription getPrescription() {
+		return prescription;
+	}
+
+	public void setPrescription(Prescription prescription) {
+		this.prescription = prescription;
+	}
+
+	public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
     public ProcedureTest() {
-        this.procedure = new MedicalProcedure(); // ensures it won't be null
+        this.prescription = new Prescription(); // ensures it won't be null
     }
 
 }

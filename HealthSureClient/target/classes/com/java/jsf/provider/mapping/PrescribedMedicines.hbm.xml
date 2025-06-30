@@ -23,7 +23,8 @@
         <property name="notes" column="notes" type="string" />
         
         <property name="createdAt" column="created_at" type="timestamp" />
-
+		 <property name="startDate" column="start_date" type="timestamp" not-null="true"/>
+      <property name="endDate" column="end_date" type="timestamp" not-null="true"/>
     </class>
 
 </hibernate-mapping>

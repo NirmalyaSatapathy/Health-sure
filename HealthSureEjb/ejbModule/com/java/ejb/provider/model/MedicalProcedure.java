@@ -25,7 +25,6 @@ public class MedicalProcedure implements Serializable{
 
 	private Date createdAt;
     private Set<Claims> claims;
-    private Set<ProcedureTest> tests;
     private Set<Prescription> prescriptions;
     // Getters and Setters
     public String getProcedureId() {
@@ -131,14 +130,6 @@ public class MedicalProcedure implements Serializable{
         this.claims = claims;
     }
 
-    public Set<ProcedureTest> getTests() {
-        return tests;
-    }
-
-    public void setTests(Set<ProcedureTest> tests) {
-        this.tests = tests;
-    }
-
     public Set<Prescription> getPrescriptions() {
         return prescriptions;
     }
@@ -157,7 +148,6 @@ public class MedicalProcedure implements Serializable{
 		return "MedicalProcedure [procedureId=" + procedureId + ", appointment=" + appointment + ", recipient="
 				+ recipient + ", provider=" + provider + ", doctor=" + doctor + ", procedureDate=" + procedureDate
 				+ ", diagnosis=" + diagnosis + ", recommendations=" + recommendations + ", fromDate=" + fromDate
-				+ ", toDate=" + toDate + ", createdAt=" + createdAt + ", claims=" + claims + ", tests=" + tests
-				+ ", prescriptions=" + prescriptions + "]";
+				+ ", toDate=" + toDate + ", createdAt=" + createdAt + ", claims=" + claims +" prescriptions=" + prescriptions + "]";
 	}
 }

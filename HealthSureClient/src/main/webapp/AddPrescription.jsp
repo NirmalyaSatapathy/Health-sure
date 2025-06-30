@@ -126,7 +126,21 @@
     </h:inputText>
     <h:message for="writtenOn" style="color:red; font-size:12px;" />
 </div>
-			
+<div class="form-group" style="grid-column: span 2;">
+    <h:outputLabel for="startDate" value="Start Date:" />
+    <h:inputText id="startDate" value="#{prescription.startDate}">
+        <f:convertDateTime pattern="yyyy-MM-dd" />
+    </h:inputText>
+     <h:message for="startDate" style="color:red; font-size:12px;" />
+</div>
+
+<div class="form-group" style="grid-column: span 2;">
+    <h:outputLabel for="endDate" value="End Date:" />
+    <h:inputText id="endDate" value="#{prescription.endDate}">
+        <f:convertDateTime pattern="yyyy-MM-dd" />
+    </h:inputText>
+     <h:message for="endDate" style="color:red; font-size:12px;" />
+</div>			
             <div class="button-group">
                 <h:commandButton value="Save Prescription"
                                  styleClass="custom-button"

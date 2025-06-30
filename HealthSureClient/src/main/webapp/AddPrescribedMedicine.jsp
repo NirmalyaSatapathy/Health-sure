@@ -82,7 +82,20 @@
                 <h:inputText id="duration" value="#{prescribedMedicine.duration}" 
                              required="true" styleClass="form-control"/>
             </div>
+			<div class="form-group">
+    <label for="startDate">Start Date</label>
+    <h:inputText id="startDate" value="#{prescribedMedicine.startDate}" styleClass="form-control">
+        <f:convertDateTime pattern="yyyy-MM-dd" />
+    </h:inputText>
+</div>
 
+<div class="form-group">
+    <label for="endDate">End Date</label>
+    <h:inputText id="endDate" value="#{prescribedMedicine.endDate}" styleClass="form-control">
+        <f:convertDateTime pattern="yyyy-MM-dd" />
+    </h:inputText>
+</div>
+			
             <div class="form-group">
                 <label for="notes">Notes</label>
                 <h:inputTextarea id="notes" value="#{prescribedMedicine.notes}" 

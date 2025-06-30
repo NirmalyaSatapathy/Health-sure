@@ -11,6 +11,8 @@ private String dosage;
 private String duration;
 private String notes;
 private Date createdAt;
+private Date startDate;
+private Date endDate;
 public String getPrescribedId() {
 	return prescribedId;
 }
@@ -67,12 +69,25 @@ public PrescribedMedicines(String prescribedId, Prescription prescription, Strin
 public PrescribedMedicines() {
     this.prescription = new Prescription();  // prevents null when calling prescription.prescriptionId
 }
-
+public Date getStartDate() {
+	return startDate;
+}
+public void setStartDate(Date startDate) {
+	this.startDate = startDate;
+}
+public Date getEndDate() {
+	return endDate;
+}
+public void setEndDate(Date endDate) {
+	this.endDate = endDate;
+}
 @Override
 public String toString() {
 	return "PrescribedMedicines [prescribedId=" + prescribedId + ", prescription=" + prescription + ", medicineName="
 			+ medicineName + ", dosage=" + dosage + ", duration=" + duration + ", notes=" + notes + ", createdAt="
-			+ createdAt + "]";
+			+ createdAt + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 }
+
+
 
 }

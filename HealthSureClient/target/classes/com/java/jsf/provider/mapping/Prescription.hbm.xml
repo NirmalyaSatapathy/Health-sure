@@ -17,9 +17,16 @@
     <many-to-one name="provider" class="com.java.jsf.provider.model.Provider" column="provider_id" not-null="true" fetch="join"/>
 
     <many-to-one name="doctor" class="com.java.jsf.provider.model.Doctor" column="doctor_id" not-null="true" fetch="join"/>
-    
+    <list name="tests" table="prescribed_tests" cascade="all" inverse="true" lazy="true">
+    <key column="prescription_id"/>
+    <list-index column="test_order"/> <!-- Add this column to your DB if not present -->
+    <one-to-many class="com.java.jsf.provider.model.ProcedureTest"/>
+</list>
+
     <!-- Timestamps -->
     <property name="writtenOn" column="written_on" type="timestamp" not-null="true"/>
     <property name="createdAt" column="created_at" type="timestamp" not-null="true"/>
+     <property name="startDate" column="start_date" type="timestamp" not-null="true"/>
+      <property name="endDate" column="end_date" type="timestamp" not-null="true"/>
   </class>
 </hibernate-mapping>

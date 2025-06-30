@@ -1,4 +1,5 @@
 -- Insurance Company
+use healthsure;
 INSERT INTO Insurance_company VALUES
 ('IC001', 'HealthPlus Insurance Co.', 'https://logo.healthplus.com', 'New Delhi, India', 'support@healthplus.com', '011-23456789');
 
@@ -28,15 +29,18 @@ INSERT INTO Recipient VALUES
 -- Subscribe Table
 INSERT INTO subscribe VALUES
 ('SUB001', 'H001', 'COV001', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'INDIVIDUAL', 'ACTIVE', 5000.00, 5000.00),
-('SUB002', 'H002', 'COV002', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'FAMILY', 'ACTIVE', 12000.00, 12000.00);
-
+('SUB002', 'H001', 'COV002', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'FAMILY', 'ACTIVE', 12000.00, 12000.00),
+('SUB003', 'H001', 'COV002', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'Individual', 'ACTIVE', 12000.00, 12000.00),
+('SUB004', 'H001', 'COV002', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'FAMILY', 'ACTIVE', 12000.00, 12000.00);
 
 
 -- Subscribed Members
 INSERT INTO subscribed_members VALUES
 ('MEM001', 'SUB002', 'Priya Sharma', 40, 'FEMALE', 'Self', 'AADHAR1234'),
 ('MEM002', 'SUB002', 'Rohan Sharma', 42, 'MALE', 'Spouse', 'AADHAR5678'),
-('MEM003', 'SUB002', 'Ananya Sharma', 15, 'FEMALE', 'Child', 'AADHAR9101');
+('MEM003', 'SUB002', 'Ananya Sharma', 15, 'FEMALE', 'Child', 'AADHAR9101'),
+('MEM004', 'SUB004', 'rohit Sharma', 15, 'MALE', 'child', 'AADHAR9101'),
+('MEM005', 'SUB004', 'karn Sharma', 15, 'MALE', 'Child', 'AADHAR9102');
 
 
 

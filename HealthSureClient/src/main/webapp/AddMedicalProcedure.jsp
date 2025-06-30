@@ -54,7 +54,7 @@
             width: 100%;
             box-sizing: border-box;
         }
-
+ 
         textarea {
             resize: vertical;
             min-height: 60px;

@@ -2,7 +2,9 @@ package com.java.jsf.provider.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.java.jsf.provider.model.Doctor;
 import com.java.jsf.provider.model.MedicalProcedure;
@@ -18,11 +20,52 @@ public class Prescription implements Serializable{
     private Recipient recipient;           // mapped from h_id
     private Provider provider;             // mapped from provider_id
     private Doctor doctor;                 // mapped from doctor_id
-
+    
     // Other fields
     private Timestamp writtenOn;
     private Timestamp createdAt;
-    private List<PrescribedMedicines> prescribedMedicines;
+    private Date startDate;
+    private Date endDate;
+    @Override
+	public String toString() {
+		return "Prescription [prescriptionId=" + prescriptionId + ", procedure=" + procedure + ", recipient="
+				+ recipient + ", provider=" + provider + ", doctor=" + doctor + ", writtenOn=" + writtenOn
+				+ ", createdAt=" + createdAt + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", prescribedMedicines=" + prescribedMedicines + "]";
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public List<PrescribedMedicines> getPrescribedMedicines() {
+		return prescribedMedicines;
+	}
+
+	public void setPrescribedMedicines(List<PrescribedMedicines> prescribedMedicines) {
+		this.prescribedMedicines = prescribedMedicines;
+	}
+	private List<PrescribedMedicines> prescribedMedicines;
+	 public List<ProcedureTest> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<ProcedureTest> tests) {
+		this.tests = tests;
+	}
+	private List<ProcedureTest> tests;
     // Getters and Setters
     public String getPrescriptionId() {
         return prescriptionId;

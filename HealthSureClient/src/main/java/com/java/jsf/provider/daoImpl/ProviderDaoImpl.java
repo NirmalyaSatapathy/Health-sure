@@ -48,18 +48,17 @@ public class ProviderDaoImpl {
 	        session.close();
 	        return Converter.convertToEJBAppointment(appointment);
 	    }
-	   public Date getProcedureDate(String procedureId1) {
-	        Date procedureDate = null;
+	   public Date getProcedureStartDate(String procedureId1) {
+	        Date startDate = null;
 	            Session session = sessionFactory.openSession();
 	            Transaction tx = session.beginTransaction();
 	            com.java.jsf.provider.model.MedicalProcedure procedure = (com.java.jsf.provider.model.MedicalProcedure) session.get(com.java.jsf.provider.model.MedicalProcedure.class, procedureId1);
 
 	            if (procedure != null) {
-	                procedureDate = procedure.getProcedureDate();
+	            	startDate = procedure.getFromDate();
 	            }
-
 	            tx.commit();
 	            session.close();
-	        return procedureDate;
+	        return startDate;
 	    }
 }

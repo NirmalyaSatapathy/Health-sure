@@ -19,9 +19,20 @@ public class Prescription implements Serializable{
 
     // Other fields
     private Date writtenOn;
+    private Date startDate;
+    private Date endDate;
     private Date createdAt;
     private List<PrescribedMedicines> prescribedMedicines;
-    // Getters and Setters
+    private List<ProcedureTest> tests;
+    public List<ProcedureTest> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<ProcedureTest> tests) {
+		this.tests = tests;
+	}
+
+	// Getters and Setters
     public String getPrescriptionId() {
         return prescriptionId;
     }
@@ -74,7 +85,39 @@ public class Prescription implements Serializable{
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Prescription [prescriptionId=" + prescriptionId + ", procedure=" + procedure + ", recipient="
+				+ recipient + ", provider=" + provider + ", doctor=" + doctor + ", writtenOn=" + writtenOn
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", createdAt=" + createdAt
+				+ ", prescribedMedicines=" + prescribedMedicines + "]";
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public List<PrescribedMedicines> getPrescribedMedicines() {
+		return prescribedMedicines;
+	}
+
+	public void setPrescribedMedicines(List<PrescribedMedicines> prescribedMedicines) {
+		this.prescribedMedicines = prescribedMedicines;
+	}
+
+	public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
     public Prescription() {

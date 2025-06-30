@@ -35,12 +35,6 @@
       <key column="procedure_id" not-null="true"/>
       <one-to-many class="com.java.jsf.provider.model.Claims"/>
     </set>
-
-    <set name="tests" table="procedure_test" cascade="all-delete-orphan" lazy="true" inverse="true">
-      <key column="procedure_id" not-null="true"/>
-      <one-to-many class="com.java.jsf.provider.model.ProcedureTest"/>
-    </set>
-
     <set name="prescriptions" table="prescription" cascade="all-delete-orphan" lazy="true" inverse="true">
       <key column="procedure_id" not-null="true"/>
       <one-to-many class="com.java.jsf.provider.model.Prescription"/>

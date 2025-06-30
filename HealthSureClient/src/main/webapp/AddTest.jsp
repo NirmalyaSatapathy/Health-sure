@@ -81,8 +81,8 @@
 
             <!-- Procedure ID -->
             <div class="form-group">
-                <h:outputLabel for="procedureId" value="Procedure ID:" />
-                <h:inputText id="procedureId" value="#{procedureTest.procedure.procedureId}" required="true" />
+                <h:outputLabel for="prescriptionId" value="Prescription ID:" />
+                <h:inputText id="procedureId" value="#{procedureTest.prescription.prescriptionId}" required="true" />
             </div>
 
             <!-- Test ID -->

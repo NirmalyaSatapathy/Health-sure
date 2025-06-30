@@ -10,7 +10,7 @@
     </id>
 
     <!-- Many-to-One Relationship -->
-    <many-to-one name="procedure" class="com.java.jsf.provider.model.MedicalProcedure" column="procedure_id" not-null="true" fetch="join"/>
+    <many-to-one name="prescription" class="com.java.jsf.provider.model.MedicalProcedure" column="procedure_id" not-null="true" fetch="join"/>
 
     <!-- Test Details -->
     <property name="testName" column="test_name" type="string" not-null="true" length="100"/>

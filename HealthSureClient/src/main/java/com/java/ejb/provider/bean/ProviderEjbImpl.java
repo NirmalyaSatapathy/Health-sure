@@ -38,20 +38,21 @@ public class ProviderEjbImpl {
 
 	public String addPrescription(Prescription prescription) throws ClassNotFoundException, SQLException {
 	    // Save via remote EJB
+		System.out.println("calling remote prescription");
 	    remote.addPrescription(prescription);
-
-	    return "AddPrescribedMedicine?faces-redirect=true";
+	    System.out.println("prescription added");
+	    return "PrescriptionDashboard?faces-redirect=true";
 	}
 
 
 	public String addTest(ProcedureTest test) throws ClassNotFoundException, SQLException {
 		remote.addTest(test);
-		return "ProcedureDashboard?faces-redirect=true";
+		return "PrescriptionDashboard?faces-redirect=true";
 	}
 
 	public String addPrescribedMedicines(PrescribedMedicines prescribedMedicine)
 			throws ClassNotFoundException, SQLException {
 		remote.addPrescribedMedicines(prescribedMedicine);
-		return "PrescribedMedicinesDashboard?faces-redirect=true";
+		return "PrescriptionDashboard?faces-redirect=true";
 	}
 }

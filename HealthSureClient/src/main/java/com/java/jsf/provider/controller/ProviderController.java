@@ -134,17 +134,25 @@ public String addMedicalProcedureController(MedicalProcedure medicalProcedure) t
     // --- Date Validations ---
     Date fromDate = medicalProcedure.getFromDate();
     Date toDate = medicalProcedure.getToDate();
+    Date procedureDate=medicalProcedure.getProcedureDate();
     Date today = new Date();
     if (fromDate != null && toDate != null) {
-        if (fromDate.after(toDate)) {
-            context.addMessage("fromDate", new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Date Error", "From Date cannot be after To Date."));
-            context.validationFailed();
-            isValid = false;
-        }
         if (fromDate.after(today)) {
             context.addMessage("fromDate", new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Invalid Date", "From Date cannot be in the future."));
+            context.validationFailed();
+            isValid = false;
+        }
+        if(fromDate.after(procedureDate))
+        {
+        	 context.addMessage("fromDate", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                     "Invalid Date", "from Date cannot be after procedure date."));
+             context.validationFailed();
+             isValid = false;
+        }
+        if (toDate.before(fromDate)) {
+            context.addMessage("toDate", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Invalid Date", "To Date cannot be before from date."));
             context.validationFailed();
             isValid = false;
         }
@@ -198,22 +206,34 @@ public String addPrescriptionController(Prescription prescription) throws ClassN
     }
 
     // Fetch Procedure Date
-    Date procedureDate = providerDao.getProcedureDate(prescription.getProcedure().getProcedureId());
+    Date startDate = providerDao.getProcedureStartDate(prescription.getProcedure().getProcedureId());
 
-    if (procedureDate == null) {
+    if (startDate == null) {
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                 "Missing Procedure Date for Procedure ID: " + prescription.getProcedure().getProcedureId(), null));
         return null;
     }
 
     // Validate: writtenOn must not be before procedureDate
-    if (prescription.getWrittenOn().before(procedureDate)) {
+    if (prescription.getWrittenOn().before(startDate)) {
         context.addMessage("writtenOn", new FacesMessage(FacesMessage.SEVERITY_ERROR,
                 "Written On date (" + prescription.getWrittenOn() +
-                ") cannot be before the Procedure Date (" + procedureDate + ").", null));
+                ") cannot be before the Procedure start Date (" + startDate + ").", null));
         return null;
     }
-
+    if (prescription.getStartDate().before(prescription.getWrittenOn())) {
+        context.addMessage("startDate", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "prescription start date(" + prescription.getStartDate() +
+                ") cannot be before the prescription written Date (" + prescription.getWrittenOn() + ").", null));
+        return null;
+    }
+    if (prescription.getEndDate().before(prescription.getStartDate())) {
+        context.addMessage("endDate", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "prescription end date(" + prescription.getEndDate() +
+                ") cannot be before the prescription start Date (" + prescription.getStartDate() + ").", null));
+        return null;
+    }
+    System.out.println("all validations passed");
     return providerEjb.addPrescription(prescription);  // Proceed if all validations pass
 }
 
@@ -226,7 +246,7 @@ public String procedureSubmit()
 {
 	return "ProviderDashboard?faces-redirect=true";
 }
-public String prescribedMedicinesSubmit()
+public String prescriptionDetailsSubmit()
 {
 	return "ProcedureDashboard?faces-redirect=true";
 }

@@ -155,6 +155,8 @@ CREATE TABLE prescription (
     provider_id VARCHAR(20) NOT NULL,
     doctor_id VARCHAR(20) NOT NULL,
     written_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (procedure_id) REFERENCES medical_procedure(procedure_id),
     FOREIGN KEY (h_id) REFERENCES Recipient(h_id),
@@ -168,17 +170,19 @@ CREATE TABLE prescribed_medicines (
     dosage VARCHAR(100),
     duration VARCHAR(100),
     notes TEXT,
+     start_date TIMESTAMP,
+    end_date TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (prescription_id) REFERENCES prescription(prescription_id)
 );
-CREATE TABLE procedure_test (
+CREATE TABLE prescribed_tests (
     test_id VARCHAR(20) PRIMARY KEY,
-    procedure_id VARCHAR(20) NOT NULL,
+    prescription_id VARCHAR(20) NOT NULL,
     test_name VARCHAR(100) NOT NULL,
     test_date DATE NOT NULL,
     result_summary TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (procedure_id) REFERENCES medical_procedure(procedure_id)
+    FOREIGN KEY (prescription_id) REFERENCES prescription(prescription_id)
 );
 
 -- ===========================
