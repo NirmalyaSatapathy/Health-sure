@@ -61,4 +61,13 @@ public class ProviderDaoImpl {
 	            session.close();
 	        return startDate;
 	    }
+	   public boolean isDoctorPatientAssociatedByAppointment( String doctorId, String hId) {
+		   String hql = "SELECT count(a) FROM Appointment a WHERE a.doctor.doctorId = :doctorId AND a.recipient.hId = :hId";
+		    Session session=sessionFactory.openSession();
+		    Long count = (Long) session.createQuery(hql)
+		                               .setParameter("doctorId", doctorId)
+		                               .setParameter("hId", hId)
+		                               .uniqueResult();
+		    return count != null && count > 0;
+		}
 }

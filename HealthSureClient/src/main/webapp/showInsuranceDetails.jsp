@@ -53,17 +53,17 @@
 <h:form prependId="false">
     <h2>Show Insurance Details of Patient</h2>
     <h:panelGrid columns="3" cellpadding="5">
+    <h:outputLabel for="doctorId" value="Enter Your Doctor ID:" />
+        <h:inputText id="doctorId" value="#{doctor.doctorId}" required="true"/>
+        <h:message for="doctorId" styleClass="error-message" />
         <h:outputLabel for="recipientId" value="Enter Recipient ID:" />
-        <h:inputText id="recipientId" value="#{recipient.hId}" />
+        <h:inputText id="recipientId" value="#{recipient.hId}" required="true"/>
         <h:message for="recipientId" styleClass="error-message" />
-
         <h:outputLabel />
-        <h:commandButton value="Show Insurance" action="#{providerController.showInsuranceDetailsController(recipient.hId)}" />
+        <h:commandButton value="Show Insurance" action="#{providerController.showInsuranceDetailsController(recipient.hId,doctor.doctorId)}" />
         <h:outputText />
     </h:panelGrid>
 </h:form>
-
-<h:messages globalOnly="false" style="color: red; margin-bottom: 10px;" />
 
 <h:form>
     <h:dataTable value="#{providerController.patientInsuranceList}" var="insurance" styleClass="data-table"

@@ -250,22 +250,56 @@ public String prescriptionDetailsSubmit()
 {
 	return "ProcedureDashboard?faces-redirect=true";
 }
-public List<PatientInsuranceDetails> showInsuranceDetailsController(String hId)
-{
-	patientInsuranceList= insuranceDaoImpl.showInsuranceOfRecipient(hId);
-	return patientInsuranceList;
+public List<PatientInsuranceDetails> showInsuranceDetailsController(String hId, String doctorId) {
+	patientInsuranceList=null;
+    providerDao = new ProviderDaoImpl();
+    FacesContext context = FacesContext.getCurrentInstance();
+
+    // Step 1: Check if Doctor exists
+    Doctor doctor = providerDao.searchDoctorById(doctorId);
+    if (doctor == null) {
+        context.addMessage("doctorId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "Doctor with ID " + doctorId + " does not exist.", null));
+        return null;
+    }
+
+    // Step 2: Check if Recipient/Patient exists
+    Recipient recipient = providerDao.searchRecipientByHealthId(hId);
+    if (recipient == null) {
+        context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "Patient with Health ID " + hId + " does not exist.", null));
+        return null;
+    }
+
+    // Step 3: Check if Doctor and Patient are associated via appointment
+    if (!providerDao.isDoctorPatientAssociatedByAppointment(doctorId, hId)) {
+        context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "Access denied: The doctor is not associated with this patient via an appointment.", null));
+        return null;
+    }
+
+    // Step 4: Fetch and return insurance details
+    patientInsuranceList = insuranceDaoImpl.showInsuranceOfRecipient(hId);
+    if (patientInsuranceList == null || patientInsuranceList.isEmpty()) {
+        context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "No insurance found for patient with Health ID " + hId + ".", null));
+        return null;
+    }
+
+    return patientInsuranceList;
 }
 
+
 public String redirect(PatientInsuranceDetails insurance) {
-	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedInsurance", insurance);
-    return "viewMembers?faces-redirect=true";
+    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedInsurance", insurance);
+    return "viewMembers?faces-redirect=true&ts=" + System.currentTimeMillis(); // timestamp tricks JSF into fresh redirect
 }
+
 public PatientInsuranceDetails loadSubscribedMembers() {
         Object obj = FacesContext.getCurrentInstance()
                                  .getExternalContext()
                                  .getSessionMap()
                                  .get("selectedInsurance");
-        
     return (PatientInsuranceDetails)obj;
 }
 

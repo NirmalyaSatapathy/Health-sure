@@ -48,7 +48,6 @@
 
 <h:form>
     <h:dataTable value="#{providerController.loadSubscribedMembers().subscribedMembers}" var="member"
-                 rendered="#{not empty providerController.loadSubscribedMembers().subscribedMembers}"
                  styleClass="data-table">
 
         <h:column>

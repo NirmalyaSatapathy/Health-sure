@@ -7,57 +7,57 @@
     <managed-bean>
 	<managed-bean-name>appointment</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.model.Appointment</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
  <managed-bean>
 	<managed-bean-name>doctor</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.model.Doctor</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
  <managed-bean>
 	<managed-bean-name>provider</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.model.Provider</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
  <managed-bean>
 	<managed-bean-name>recipient</managed-bean-name>
     <managed-bean-class>com.java.ejb.recipient.model.Recipient</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
     <managed-bean>
 	<managed-bean-name>providerEjb</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.bean.ProviderEjbImpl</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
 <managed-bean>
 	<managed-bean-name>medicalProcedure</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.model.MedicalProcedure</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
 <managed-bean>
 	<managed-bean-name>prescription</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.model.Prescription</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
 <managed-bean>
 	<managed-bean-name>prescribedMedicine</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.model.PrescribedMedicines</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
 <managed-bean>
 	<managed-bean-name>procedureTest</managed-bean-name>
     <managed-bean-class>com.java.ejb.provider.model.ProcedureTest</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
 <managed-bean>
 	<managed-bean-name>insuranceDaoImpl</managed-bean-name>
     <managed-bean-class>com.java.jsf.provider.daoImpl.InsuranceDaoImpl</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
 <managed-bean>
 <managed-bean-name>providerController</managed-bean-name>
     <managed-bean-class>com.java.jsf.provider.controller.ProviderController</managed-bean-class>
-    <managed-bean-scope>view</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
     <managed-property>
             <property-name>providerEjb</property-name>
             <property-class>com.java.ejb.provider.bean.ProviderEjbImpl</property-class>
