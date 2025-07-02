@@ -26,6 +26,23 @@ ProviderEjbImpl providerEjb;
 ProviderDaoImpl providerDao;
 String doctorId;
 String healthId;
+String patientName;
+String matchType="startsWith";
+public String getMatchType() {
+	return matchType;
+}
+
+public void setMatchType(String matchType) {
+	this.matchType = matchType;
+}
+
+public String getPatientName() {
+	return patientName;
+}
+
+public void setPatientName(String patientName) {
+	this.patientName = patientName;
+}
 List<Recipient> associatedPatients;
 MedicalProcedure medicalProcedure;
 List<PatientInsuranceDetails> patientInsuranceList;
@@ -264,13 +281,13 @@ public String prescriptionDetailsSubmit()
 	return "ProcedureDashboard?faces-redirect=true";
 }
 public String handleSearch() {
-	insuranceDaoImpl=new InsuranceDaoImpl();
-	providerDao=new ProviderDaoImpl();
+    insuranceDaoImpl = new InsuranceDaoImpl();
+    providerDao = new ProviderDaoImpl();
     FacesContext context = FacesContext.getCurrentInstance();
     topMessage = null;
-    patientInsuranceList = null; // Clear insurance list
-    associatedPatients = null; // Clear patient list
-    // Validate doctorId is not empty
+    patientInsuranceList = null;
+    associatedPatients = null;
+
     if (doctorId == null || doctorId.trim().isEmpty()) {
         context.addMessage("doctorId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
                 "Doctor ID is required.", null));
@@ -284,7 +301,6 @@ public String handleSearch() {
         return null;
     }
 
-    // Case 1: Doctor and patient ID both provided
     if (healthId != null && !healthId.trim().isEmpty()) {
         Recipient recipient = providerDao.searchRecipientByHealthId(healthId);
         if (recipient == null) {
@@ -293,33 +309,68 @@ public String handleSearch() {
             return null;
         }
 
-        // Check doctor-patient association
+        if (patientName != null && !patientName.trim().isEmpty()) {
+            String fullName = (recipient.getFirstName() + recipient.getLastName()).toLowerCase().replaceAll("\\s+", "");
+            String reverseName = (recipient.getLastName() + recipient.getFirstName()).toLowerCase().replaceAll("\\s+", "");
+            String inputName = patientName.toLowerCase().replaceAll("\\s+", "");
+
+            boolean match = false;
+            switch (matchType.toLowerCase()) {
+                case "startswith":
+                    match = fullName.startsWith(inputName);
+                    break;
+                case "endswith":
+                    match = fullName.endsWith(inputName);
+                    break;
+                case "contains":
+                    match = fullName.contains(inputName) || reverseName.contains(inputName);
+                    break;
+                case "exact":
+                default:
+                    match = fullName.equals(inputName);
+                    break;
+            }
+
+            if (!match) {
+                context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Patient with ID " + healthId + " does not have a name that " + matchType + " '" + patientName + "'.", null));
+                return null;
+            }
+        }
+
         if (!providerDao.isDoctorPatientAssociatedByAppointment(doctorId, healthId)) {
             context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Access denied: The doctor is not associated with this patient via an appointment.", null));
             return null;
         }
 
-        // Show insurance for this specific patient
         patientInsuranceList = insuranceDaoImpl.showInsuranceOfRecipient(healthId);
         if (patientInsuranceList == null || patientInsuranceList.isEmpty()) {
             context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "No insurance found for patient ID: " + healthId, null));
         }
-        
-    } 
-    // Case 2: Only doctor ID provided
-    else {
+    } else if (patientName != null && !patientName.trim().isEmpty()) {
+        associatedPatients = providerDao.searchPatientsByName(doctorId, patientName, matchType);
+        if (associatedPatients == null || associatedPatients.isEmpty()) {
+            String readableMatch = matchType.equalsIgnoreCase("startswith") ? "start with"
+                                  : matchType.equalsIgnoreCase("endswith") ? "end with"
+                                  : matchType.equalsIgnoreCase("exact") ? "exactly match"
+                                  : "contain";
+            context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "No patients found under Doctor ID " + doctorId +
+                    " whose name " + readableMatch + " '" + patientName + "'", null));
+        }
+    } else {
         associatedPatients = providerDao.getPatientListByDoctorId(doctorId);
         if (associatedPatients == null || associatedPatients.isEmpty()) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+            context.addMessage("doctorId", new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "No patients found for Doctor ID: " + doctorId, null));
         }
-       
     }
 
     return null;
 }
+
 
 public String showInsuranceForPatient(String hId) {
     System.out.println("view members called from nested table for hid " + hId);

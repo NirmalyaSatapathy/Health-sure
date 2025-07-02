@@ -49,21 +49,35 @@
     </style>
 </head>
 <body>
-
 <h:form prependId="false">
-    <h2>Show Insurance Details of Patient</h2>
-    <h:panelGrid columns="3" cellpadding="5">
-        <h:outputLabel for="doctorId" value="Enter Doctor ID:" />
-        <h:inputText id="doctorId" value="#{providerController.doctorId}" required="true" />
-        <h:message for="doctorId" styleClass="error-message" />
+<h:panelGrid columns="4" cellpadding="5">
+    <h:outputLabel for="doctorId" value="Enter Doctor ID:" />
+    <h:inputText id="doctorId" value="#{providerController.doctorId}" required="true" />
+    <h:message for="doctorId" styleClass="error-message" />
+    <h:outputLabel />
 
-        <h:outputLabel for="recipientId" value="Enter Patient ID (optional):" />
-        <h:inputText id="recipientId" value="#{providerController.healthId}" />
-        <h:message for="recipientId" styleClass="error-message" />
+    <h:outputLabel for="recipientId" value="Enter Patient ID (optional):" />
+    <h:inputText id="recipientId" value="#{providerController.healthId}" />
+    <h:message for="recipientId" styleClass="error-message" />
+    <h:outputLabel />
 
-        <h:outputLabel />
-        <h:commandButton value="Search" action="#{providerController.handleSearch}" />
-    </h:panelGrid>
+    <h:outputLabel for="patientName" value="Patient Name (optional):" />
+    <h:inputText id="patientName" value="#{providerController.patientName}" />
+    <h:message for="patientName" styleClass="error-message" />
+    <h:outputLabel />
+
+    <h:outputLabel for="matchType" value="Name Match Type:" />
+    <h:selectOneMenu id="matchType" value="#{providerController.matchType}">
+        <f:selectItem itemLabel="Starts With" itemValue="startsWith" />
+        <f:selectItem itemLabel="Ends With" itemValue="endsWith" />
+        <f:selectItem itemLabel="Contains" itemValue="contains" />
+         <f:selectItem itemLabel="Exact" itemValue="exact" />
+    </h:selectOneMenu>
+    <h:message for="matchType" styleClass="error-message" />
+
+    <h:outputLabel />
+    <h:commandButton value="Search" action="#{providerController.handleSearch}" />
+</h:panelGrid>
 </h:form>
 <h:form rendered="#{not empty providerController.associatedPatients and  empty providerController.patientInsuranceList}">
  <h:panelGroup rendered="#{not empty providerController.topMessage and empty providerController.patientInsuranceList}">

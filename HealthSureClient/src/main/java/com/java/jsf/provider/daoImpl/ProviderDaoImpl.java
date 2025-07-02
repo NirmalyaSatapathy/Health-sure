@@ -93,6 +93,62 @@ public class ProviderDaoImpl {
 
 	       return ejbRecipientList;
 	   }
+	   public List<Recipient> searchPatientsByName(String doctorId, String name, String matchType) {
+		    Session session = sessionFactory.openSession();
+		    Transaction tx = session.beginTransaction();
+
+		    String hql = "";
+		    String namePattern = "";
+		    String cleanedName = name.toLowerCase().replaceAll("\\s+", "");
+
+		    switch (matchType.toLowerCase()) {
+		        case "startswith":
+		            namePattern = cleanedName + "%";
+		            hql = "SELECT DISTINCT a.recipient FROM Appointment a "
+		                + "WHERE a.doctor.doctorId = :doctorId AND "
+		                + "lower(concat(a.recipient.firstName, a.recipient.lastName)) LIKE :name";
+		            break;
+
+		        case "endswith":
+		            namePattern = "%" + cleanedName;
+		            hql = "SELECT DISTINCT a.recipient FROM Appointment a "
+		                + "WHERE a.doctor.doctorId = :doctorId AND "
+		                + "lower(concat(a.recipient.firstName, a.recipient.lastName)) LIKE :name";
+		            break;
+
+		        case "contains":
+		            namePattern = "%" + cleanedName + "%";
+		            hql = "SELECT DISTINCT a.recipient FROM Appointment a "
+		                + "WHERE a.doctor.doctorId = :doctorId AND ("
+		                + "lower(replace(concat(a.recipient.firstName, ' ', a.recipient.lastName), ' ', '')) LIKE :name OR "
+		                + "lower(replace(concat(a.recipient.lastName, ' ', a.recipient.firstName), ' ', '')) LIKE :name)";
+		            break;
+
+		        case "exact":
+		        default:
+		            namePattern = cleanedName;
+		            hql = "SELECT DISTINCT a.recipient FROM Appointment a "
+		                + "WHERE a.doctor.doctorId = :doctorId AND "
+		                + "lower(replace(concat(a.recipient.firstName, a.recipient.lastName), ' ', '')) = :name";
+		            break;
+		    }
+
+		    List<com.java.jsf.recipient.model.Recipient> jsfRecipientList = session.createQuery(hql)
+		        .setParameter("doctorId", doctorId)
+		        .setParameter("name", namePattern)
+		        .list();
+
+		    tx.commit();
+		    session.close();
+
+		    List<Recipient> ejbRecipientList = new ArrayList<Recipient>();
+		    for (com.java.jsf.recipient.model.Recipient jsfRecipient : jsfRecipientList) {
+		        ejbRecipientList.add(Converter.convertToEJBRecipient(jsfRecipient));
+		    }
+
+		    return ejbRecipientList;
+		}
+
 
 	   
 }
