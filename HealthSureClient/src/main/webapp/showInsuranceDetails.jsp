@@ -65,10 +65,8 @@
         <h:commandButton value="Search" action="#{providerController.handleSearch}" />
     </h:panelGrid>
 </h:form>
-
-<h:form>
 <h:form rendered="#{not empty providerController.associatedPatients and  empty providerController.patientInsuranceList}">
- <h:panelGroup rendered="#{not empty providerController.topMessage}">
+ <h:panelGroup rendered="#{not empty providerController.topMessage and empty providerController.patientInsuranceList}">
         <h:outputText value="#{providerController.topMessage}" style="color:red; font-weight:bold;" />
         <br/><br/>
     </h:panelGroup>
@@ -97,7 +95,7 @@
 
     </h:dataTable>
 </h:form>
-
+<h:form>
     <h:dataTable value="#{providerController.patientInsuranceList}" var="insurance" styleClass="data-table"
                  rendered="#{not empty providerController.patientInsuranceList}">
         <h:column>

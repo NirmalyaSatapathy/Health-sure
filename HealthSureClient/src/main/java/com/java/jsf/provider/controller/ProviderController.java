@@ -267,6 +267,7 @@ public String handleSearch() {
 	insuranceDaoImpl=new InsuranceDaoImpl();
 	providerDao=new ProviderDaoImpl();
     FacesContext context = FacesContext.getCurrentInstance();
+    topMessage = null;
     patientInsuranceList = null; // Clear insurance list
     associatedPatients = null; // Clear patient list
     // Validate doctorId is not empty
