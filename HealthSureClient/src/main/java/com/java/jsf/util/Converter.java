@@ -39,10 +39,38 @@ public class Converter {
 	}
 	public static com.java.ejb.recipient.model.Recipient convertToEJBRecipient(
 	        com.java.jsf.recipient.model.Recipient jsfRecipient) {
+
 	    if (jsfRecipient == null || jsfRecipient.gethId() == null) return null;
 
 	    com.java.ejb.recipient.model.Recipient ejbRecipient = new com.java.ejb.recipient.model.Recipient();
+
 	    ejbRecipient.sethId(jsfRecipient.gethId());
+	    ejbRecipient.setFirstName(jsfRecipient.getFirstName());
+	    ejbRecipient.setLastName(jsfRecipient.getLastName());
+	    ejbRecipient.setMobile(jsfRecipient.getMobile());
+	    ejbRecipient.setUserName(jsfRecipient.getUserName());
+	    ejbRecipient.setDob(jsfRecipient.getDob());
+	    ejbRecipient.setAddress(jsfRecipient.getAddress());
+	    ejbRecipient.setCreatedAt(jsfRecipient.getCreatedAt());
+	    ejbRecipient.setPassword(jsfRecipient.getPassword());
+	    ejbRecipient.setEmail(jsfRecipient.getEmail());
+	    ejbRecipient.setGender(
+	    	    jsfRecipient.getGender() != null 
+	    	    ? com.java.ejb.recipient.model.Gender.valueOf(jsfRecipient.getGender().name()) 
+	    	    : null
+	    	);
+
+	    	ejbRecipient.setStatus(
+	    	    jsfRecipient.getStatus() != null 
+	    	    ? com.java.ejb.recipient.model.Status.valueOf(jsfRecipient.getStatus().name()) 
+	    	    : null
+	    	);
+
+	    ejbRecipient.setLoginAttempts(jsfRecipient.getLoginAttempts());
+	    ejbRecipient.setLockedUntil(jsfRecipient.getLockedUntil());
+	    ejbRecipient.setLastLogin(jsfRecipient.getLastLogin());
+	    ejbRecipient.setPasswordUpdatedAt(jsfRecipient.getPasswordUpdatedAt());
+
 	    return ejbRecipient;
 	}
 

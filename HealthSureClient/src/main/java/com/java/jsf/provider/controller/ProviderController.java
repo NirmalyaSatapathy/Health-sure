@@ -24,9 +24,22 @@ import com.java.jsf.provider.model.PatientInsuranceDetails;
 public class ProviderController {
 ProviderEjbImpl providerEjb;
 ProviderDaoImpl providerDao;
+String doctorId;
+String healthId;
+List<Recipient> associatedPatients;
 MedicalProcedure medicalProcedure;
 List<PatientInsuranceDetails> patientInsuranceList;
 PatientInsuranceDetails selectedItem;
+private String topMessage;
+
+public String getTopMessage() {
+    return topMessage;
+}
+
+public void setTopMessage(String topMessage) {
+    this.topMessage = topMessage;
+}
+
 public PatientInsuranceDetails getSelectedItem() {
 	return selectedItem;
 }
@@ -250,12 +263,19 @@ public String prescriptionDetailsSubmit()
 {
 	return "ProcedureDashboard?faces-redirect=true";
 }
-public List<PatientInsuranceDetails> showInsuranceDetailsController(String hId, String doctorId) {
-	patientInsuranceList=null;
-    providerDao = new ProviderDaoImpl();
+public String handleSearch() {
+	insuranceDaoImpl=new InsuranceDaoImpl();
+	providerDao=new ProviderDaoImpl();
     FacesContext context = FacesContext.getCurrentInstance();
+    patientInsuranceList = null; // Clear insurance list
+    associatedPatients = null; // Clear patient list
+    // Validate doctorId is not empty
+    if (doctorId == null || doctorId.trim().isEmpty()) {
+        context.addMessage("doctorId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                "Doctor ID is required.", null));
+        return null;
+    }
 
-    // Step 1: Check if Doctor exists
     Doctor doctor = providerDao.searchDoctorById(doctorId);
     if (doctor == null) {
         context.addMessage("doctorId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -263,33 +283,76 @@ public List<PatientInsuranceDetails> showInsuranceDetailsController(String hId, 
         return null;
     }
 
-    // Step 2: Check if Recipient/Patient exists
-    Recipient recipient = providerDao.searchRecipientByHealthId(hId);
-    if (recipient == null) {
-        context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                "Patient with Health ID " + hId + " does not exist.", null));
-        return null;
+    // Case 1: Doctor and patient ID both provided
+    if (healthId != null && !healthId.trim().isEmpty()) {
+        Recipient recipient = providerDao.searchRecipientByHealthId(healthId);
+        if (recipient == null) {
+            context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Patient with Health ID " + healthId + " does not exist.", null));
+            return null;
+        }
+
+        // Check doctor-patient association
+        if (!providerDao.isDoctorPatientAssociatedByAppointment(doctorId, healthId)) {
+            context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Access denied: The doctor is not associated with this patient via an appointment.", null));
+            return null;
+        }
+
+        // Show insurance for this specific patient
+        patientInsuranceList = insuranceDaoImpl.showInsuranceOfRecipient(healthId);
+        if (patientInsuranceList == null || patientInsuranceList.isEmpty()) {
+            context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "No insurance found for patient ID: " + healthId, null));
+        }
+        
+    } 
+    // Case 2: Only doctor ID provided
+    else {
+        associatedPatients = providerDao.getPatientListByDoctorId(doctorId);
+        if (associatedPatients == null || associatedPatients.isEmpty()) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "No patients found for Doctor ID: " + doctorId, null));
+        }
+       
     }
 
-    // Step 3: Check if Doctor and Patient are associated via appointment
-    if (!providerDao.isDoctorPatientAssociatedByAppointment(doctorId, hId)) {
-        context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                "Access denied: The doctor is not associated with this patient via an appointment.", null));
-        return null;
-    }
+    return null;
+}
 
-    // Step 4: Fetch and return insurance details
+public String showInsuranceForPatient(String hId) {
+    System.out.println("view members called from nested table for hid " + hId);
     patientInsuranceList = insuranceDaoImpl.showInsuranceOfRecipient(hId);
+    
     if (patientInsuranceList == null || patientInsuranceList.isEmpty()) {
-        context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                "No insurance found for patient with Health ID " + hId + ".", null));
-        return null;
+        topMessage = "No insurance found for patient ID: " + hId;
+    } else {
+        topMessage = null; // Clear message if insurance is found
     }
-
-    return patientInsuranceList;
+    
+    return null;
 }
 
 
+
+public String getDoctorId() {
+	return doctorId;
+}
+public void setDoctorId(String doctorId) {
+	this.doctorId = doctorId;
+}
+public String getHealthId() {
+	return healthId;
+}
+public void setHealthId(String healthId) {
+	this.healthId = healthId;
+}
+public List<Recipient> getAssociatedPatients() {
+	return associatedPatients;
+}
+public void setAssociatedPatients(List<Recipient> associatedPatients) {
+	this.associatedPatients = associatedPatients;
+}
 public String redirect(PatientInsuranceDetails insurance) {
     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedInsurance", insurance);
     return "viewMembers?faces-redirect=true&ts=" + System.currentTimeMillis(); // timestamp tricks JSF into fresh redirect

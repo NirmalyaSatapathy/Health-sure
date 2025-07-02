@@ -53,19 +53,51 @@
 <h:form prependId="false">
     <h2>Show Insurance Details of Patient</h2>
     <h:panelGrid columns="3" cellpadding="5">
-    <h:outputLabel for="doctorId" value="Enter Your Doctor ID:" />
-        <h:inputText id="doctorId" value="#{doctor.doctorId}" required="true"/>
+        <h:outputLabel for="doctorId" value="Enter Doctor ID:" />
+        <h:inputText id="doctorId" value="#{providerController.doctorId}" required="true" />
         <h:message for="doctorId" styleClass="error-message" />
-        <h:outputLabel for="recipientId" value="Enter Recipient ID:" />
-        <h:inputText id="recipientId" value="#{recipient.hId}" required="true"/>
+
+        <h:outputLabel for="recipientId" value="Enter Patient ID (optional):" />
+        <h:inputText id="recipientId" value="#{providerController.healthId}" />
         <h:message for="recipientId" styleClass="error-message" />
+
         <h:outputLabel />
-        <h:commandButton value="Show Insurance" action="#{providerController.showInsuranceDetailsController(recipient.hId,doctor.doctorId)}" />
-        <h:outputText />
+        <h:commandButton value="Search" action="#{providerController.handleSearch}" />
     </h:panelGrid>
 </h:form>
 
 <h:form>
+<h:form rendered="#{not empty providerController.associatedPatients and  empty providerController.patientInsuranceList}">
+ <h:panelGroup rendered="#{not empty providerController.topMessage}">
+        <h:outputText value="#{providerController.topMessage}" style="color:red; font-weight:bold;" />
+        <br/><br/>
+    </h:panelGroup>
+    <h:dataTable value="#{providerController.associatedPatients}" var="patient" styleClass="data-table">
+    <h:column>
+            <f:facet name="header"><h:outputText value="Health Id"/></f:facet>
+            <h:outputText value="#{patient.hId}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header"><h:outputText value="User name"/></f:facet>
+            <h:outputText value="#{patient.userName}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header"><h:outputText value="First name"/></f:facet>
+            <h:outputText value="#{patient.firstName}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header"><h:outputText value="Last name"/></f:facet>
+            <h:outputText value="#{patient.lastName}" />
+        </h:column>
+       <h:column>
+    <f:facet name="header"><h:outputText value="Show Insurance"/></f:facet>
+        <h:commandButton value="Show Insurance"
+                         action="#{providerController.showInsuranceForPatient(patient.hId)}"/>
+</h:column>
+
+    </h:dataTable>
+</h:form>
+
     <h:dataTable value="#{providerController.patientInsuranceList}" var="insurance" styleClass="data-table"
                  rendered="#{not empty providerController.patientInsuranceList}">
         <h:column>

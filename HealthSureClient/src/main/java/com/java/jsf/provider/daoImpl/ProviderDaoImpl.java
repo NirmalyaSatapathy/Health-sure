@@ -1,6 +1,8 @@
 package com.java.jsf.provider.daoImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -70,4 +72,27 @@ public class ProviderDaoImpl {
 		                               .uniqueResult();
 		    return count != null && count > 0;
 		}
+	   public List<Recipient> getPatientListByDoctorId(String doctorId) {
+	       Session session = sessionFactory.openSession();
+	       Transaction tx = session.beginTransaction();
+	       
+	       String hql = "SELECT DISTINCT a.recipient FROM com.java.jsf.provider.model.Appointment a "
+	                  + "WHERE a.doctor.doctorId = :doctorId";
+
+	       List<com.java.jsf.recipient.model.Recipient> jsfRecipientList = session.createQuery(hql)
+	               .setParameter("doctorId", doctorId)
+	               .list();
+
+	       tx.commit();
+	       session.close();
+
+	       List<Recipient> ejbRecipientList = new ArrayList<Recipient>();
+	       for (com.java.jsf.recipient.model.Recipient jsfRecipient : jsfRecipientList) {
+	           ejbRecipientList.add(Converter.convertToEJBRecipient(jsfRecipient));
+	       }
+
+	       return ejbRecipientList;
+	   }
+
+	   
 }
