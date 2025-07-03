@@ -51,9 +51,9 @@ public void setSubscribedMembers(List<SubscribedMember> subscribedMembers) {
 }
 
 public List<SubscribedMember> getSubscribedMembers() {
-    if (subscribedMembers == null) {
+   
         subscribedMembers = loadSubscribedMembers().getSubscribedMembers();
-    }
+    
     return subscribedMembers;
 }
 
@@ -484,7 +484,7 @@ public String prescriptionDetailsSubmit()
 	return "ProcedureDashboard?faces-redirect=true";
 }
 public String handleSearch() {
-	cameFromPatientSearch = true;
+    cameFromPatientSearch = true;
     insuranceDaoImpl = new InsuranceDaoImpl();
     providerDao = new ProviderDaoImpl();
     FacesContext context = FacesContext.getCurrentInstance();
@@ -509,7 +509,7 @@ public String handleSearch() {
     }
 
     if (healthId != null && !healthId.trim().isEmpty()) {
-    	cameFromPatientSearch=false;
+        cameFromPatientSearch = false;
         Recipient recipient = providerDao.searchRecipientByHealthId(healthId);
         if (recipient == null) {
             context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -518,9 +518,23 @@ public String handleSearch() {
         }
 
         if (patientName != null && !patientName.trim().isEmpty()) {
+            String cleaned = patientName.replaceAll("\\s+", "");
+            // Length validation
+            if (cleaned.length() < 2) {
+                context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Please enter at least 2 characters in the patient name.", null));
+                return null;
+            }
+            // Character validation
+            if (!patientName.matches("^[a-zA-Z0-9\\s]+$")) {
+                context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Patient name can only contain letters, digits, and spaces. Special characters are not allowed.", null));
+                return null;
+            }
+
             String fullName = (recipient.getFirstName() + recipient.getLastName()).toLowerCase().replaceAll("\\s+", "");
             String reverseName = (recipient.getLastName() + recipient.getFirstName()).toLowerCase().replaceAll("\\s+", "");
-            String inputName = patientName.toLowerCase().replaceAll("\\s+", "");
+            String inputName = cleaned.toLowerCase();
 
             boolean match = false;
             switch (matchType.toLowerCase()) {
@@ -561,6 +575,20 @@ public String handleSearch() {
         }
 
     } else if (patientName != null && !patientName.trim().isEmpty()) {
+        String cleaned = patientName.replaceAll("\\s+", "");
+        // Length validation
+        if (cleaned.length() < 2) {
+            context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Please enter at least 2 characters in the patient name.", null));
+            return null;
+        }
+        // Character validation
+        if (!patientName.matches("^[a-zA-Z0-9\\s]+$")) {
+            context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Patient name can only contain letters, digits, and spaces. Special characters are not allowed.", null));
+            return null;
+        }
+
         associatedPatients = providerDao.searchPatientsByName(doctorId, patientName, matchType);
         if (associatedPatients == null || associatedPatients.isEmpty()) {
             String readableMatch = matchType.equalsIgnoreCase("startswith") ? "start with"
@@ -586,6 +614,8 @@ public String handleSearch() {
 
     return null;
 }
+
+
 
 
 
@@ -628,7 +658,12 @@ public void setAssociatedPatients(List<Recipient> associatedPatients) {
 	this.associatedPatients = associatedPatients;
 }
 public String redirect(PatientInsuranceDetails insurance) {
-    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedInsurance", insurance);
+	FacesContext ctx = FacesContext.getCurrentInstance();
+	System.out.println("_________________________redirecting to view members "+insurance);
+	Map<String, Object> session = ctx.getExternalContext().getSessionMap();
+	session.remove("selectedInsurance"); // force clear
+	session.put("selectedInsurance", insurance);
+	System.out.println("passed insurance"+session.get("selectedInsurance"));
     return "viewMembers?faces-redirect=true&ts=" + System.currentTimeMillis(); // timestamp tricks JSF into fresh redirect
 }
 
