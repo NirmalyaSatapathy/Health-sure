@@ -3,6 +3,8 @@ package com.java.ejb.provider.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DoctorAvailability implements Serializable{
 
@@ -13,6 +15,15 @@ public class DoctorAvailability implements Serializable{
     private Date availableDate;
 
     private Time startTime;
+    private Set<Appointment> appointments = new HashSet<>();
+
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 
     public DoctorAvailability() {
 		super();

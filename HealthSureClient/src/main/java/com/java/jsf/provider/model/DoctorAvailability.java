@@ -3,6 +3,8 @@ package com.java.jsf.provider.model;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DoctorAvailability {
     private String availabilityId;
@@ -16,8 +18,16 @@ public class DoctorAvailability {
     private String notes;
     private Timestamp createdAt;
     
-    // One-to-One bidirectional relationship with Appointment
-    private Appointment appointment;
+    private Set<Appointment> appointments = new HashSet<>();
+
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
 
     // Constructors
     public DoctorAvailability() {}
@@ -113,14 +123,6 @@ public class DoctorAvailability {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Appointment getAppointment() {
-        return appointment;
-    }
-
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
     }
 
     @Override

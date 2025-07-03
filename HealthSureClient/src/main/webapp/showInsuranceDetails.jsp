@@ -49,91 +49,100 @@
     </style>
 </head>
 <body>
+<h2>Patient insurance details</h2>
+
 <h:form prependId="false">
-<h:panelGrid columns="4" cellpadding="5">
-    <h:outputLabel for="doctorId" value="Enter Doctor ID:" />
-    <h:inputText id="doctorId" value="#{providerController.doctorId}" required="true" />
-    <h:message for="doctorId" styleClass="error-message" />
-    <h:outputLabel />
+    <h:panelGrid columns="4" cellpadding="5">
+        <h:outputLabel for="doctorId" value="Enter Doctor ID:" />
+        <h:inputText id="doctorId" value="#{providerController.doctorId}" />
+        <h:message for="doctorId" styleClass="error-message" />
+        <h:outputLabel />
 
-    <h:outputLabel for="recipientId" value="Enter Patient ID (optional):" />
-    <h:inputText id="recipientId" value="#{providerController.healthId}" />
-    <h:message for="recipientId" styleClass="error-message" />
-    <h:outputLabel />
+        <h:outputLabel for="recipientId" value="Enter Patient ID (optional):" />
+        <h:inputText id="recipientId" value="#{providerController.healthId}" />
+        <h:message for="recipientId" styleClass="error-message" />
+        <h:outputLabel />
 
-    <h:outputLabel for="patientName" value="Patient Name (optional):" />
-    <h:inputText id="patientName" value="#{providerController.patientName}" />
-    <h:message for="patientName" styleClass="error-message" />
-    <h:outputLabel />
+        <h:outputLabel for="patientName" value="Patient Name (optional):" />
+        <h:inputText id="patientName" value="#{providerController.patientName}" />
+        <h:message for="patientName" styleClass="error-message" />
+        <h:outputLabel />
 
-    <h:outputLabel for="matchType" value="Name Match Type:" />
-    <h:selectOneMenu id="matchType" value="#{providerController.matchType}">
-        <f:selectItem itemLabel="Starts With" itemValue="startsWith" />
-        <f:selectItem itemLabel="Ends With" itemValue="endsWith" />
-        <f:selectItem itemLabel="Contains" itemValue="contains" />
-         <f:selectItem itemLabel="Exact" itemValue="exact" />
-    </h:selectOneMenu>
-    <h:message for="matchType" styleClass="error-message" />
+        <h:outputLabel for="matchType" value="Name Match Type:" />
+        <h:selectOneMenu id="matchType" value="#{providerController.matchType}">
+            <f:selectItem itemLabel="Starts With" itemValue="startsWith" />
+            <f:selectItem itemLabel="Ends With" itemValue="endsWith" />
+            <f:selectItem itemLabel="Contains" itemValue="contains" />
+            <f:selectItem itemLabel="Exact" itemValue="exact" />
+        </h:selectOneMenu>
+        <h:message for="matchType" styleClass="error-message" />
 
-    <h:outputLabel />
-    <h:commandButton value="Search" action="#{providerController.handleSearch}" />
-</h:panelGrid>
+        <h:outputLabel />
+        <h:commandButton value="Search" action="#{providerController.handleSearch}" />
+    </h:panelGrid>
 </h:form>
-<h:form rendered="#{not empty providerController.associatedPatients and  empty providerController.patientInsuranceList}">
- <h:panelGroup rendered="#{not empty providerController.topMessage and empty providerController.patientInsuranceList}">
-        <h:outputText value="#{providerController.topMessage}" style="color:red; font-weight:bold;" />
-        <br/><br/>
-    </h:panelGroup>
-   <h:dataTable value="#{providerController.associatedPatients}" var="patient" styleClass="data-table">
 
-    <h:column>
-        <f:facet name="header">
-            <h:commandLink value="Health Id#{providerController.sortField eq 'hId' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
-                           action="#{providerController.sortBy('patients', 'hId')}" />
-        </f:facet>
-        <h:outputText value="#{patient.hId}" />
-    </h:column>
+<!-- TOP MESSAGE -->
+<h:panelGroup rendered="#{not empty providerController.topMessage}">
+    <h:outputText value="#{providerController.topMessage}" style="color:red; font-weight:bold;" />
+    <br/><br/>
+</h:panelGroup>
+<h:panelGroup rendered="#{providerController.showPatientsFlag}">
+    <!-- Table for associatedPatients -->
+<!-- PATIENT TABLE -->
+<h:form rendered="#{providerController.showPatientsFlag}">
+    <h:dataTable value="#{providerController.associatedPatients}" var="patient" styleClass="data-table">
 
-    <h:column>
-        <f:facet name="header">
-            <h:commandLink value="User Name#{providerController.sortField eq 'userName' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
-                           action="#{providerController.sortBy('patients', 'userName')}" />
-        </f:facet>
-        <h:outputText value="#{patient.userName}" />
-    </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:commandLink value="Health Id#{providerController.sortField eq 'hId' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
+                               action="#{providerController.sortBy('patients', 'hId')}" />
+            </f:facet>
+            <h:outputText value="#{patient.hId}" />
+        </h:column>
 
-    <h:column>
-        <f:facet name="header">
-            <h:commandLink value="First Name#{providerController.sortField eq 'firstName' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
-                           action="#{providerController.sortBy('patients', 'firstName')}" />
-        </f:facet>
-        <h:outputText value="#{patient.firstName}" />
-    </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:commandLink value="User Name#{providerController.sortField eq 'userName' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
+                               action="#{providerController.sortBy('patients', 'userName')}" />
+            </f:facet>
+            <h:outputText value="#{patient.userName}" />
+        </h:column>
 
-    <h:column>
-        <f:facet name="header">
-            <h:commandLink value="Last Name#{providerController.sortField eq 'lastName' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
-                           action="#{providerController.sortBy('patients', 'lastName')}" />
-        </f:facet>
-        <h:outputText value="#{patient.lastName}" />
-    </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:commandLink value="First Name#{providerController.sortField eq 'firstName' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
+                               action="#{providerController.sortBy('patients', 'firstName')}" />
+            </f:facet>
+            <h:outputText value="#{patient.firstName}" />
+        </h:column>
 
-    <h:column>
-        <f:facet name="header">
-            <h:outputText value="Show Insurance" />
-        </f:facet>
-        <h:commandButton value="Show Insurance"
-                         action="#{providerController.showInsuranceForPatient(patient.hId)}" />
-    </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:commandLink value="Last Name#{providerController.sortField eq 'lastName' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
+                               action="#{providerController.sortBy('patients', 'lastName')}" />
+            </f:facet>
+            <h:outputText value="#{patient.lastName}" />
+        </h:column>
 
-</h:dataTable>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Show Insurance" />
+            </f:facet>
+            <h:commandButton value="Show Insurance"
+                             action="#{providerController.showInsuranceForPatient(patient.hId)}" />
+        </h:column>
 
+    </h:dataTable>
 </h:form>
-<h:form>
-   <h:dataTable value="#{providerController.patientInsuranceList}" var="insurance" styleClass="data-table"
-             rendered="#{not empty providerController.patientInsuranceList}">
+</h:panelGroup>
+<h:panelGroup rendered="#{providerController.showInsuranceFlag}">
+    <!-- Table for patientInsuranceList -->
 
-    <h:column>
+<!-- INSURANCE TABLE -->
+<h:form rendered="#{providerController.showInsuranceFlag}">
+    <h:dataTable value="#{providerController.patientInsuranceList}" var="insurance" styleClass="data-table">
+ <h:column>
         <f:facet name="header">
             <h:commandLink value="Patient Name#{providerController.sortField eq 'patientName' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
                            action="#{providerController.sortBy('insurance', 'patientName')}" />
@@ -244,15 +253,14 @@
         </h:panelGroup>
     </h:column>
 
-</h:dataTable>
-<h:panelGroup rendered="#{providerController.cameFromPatientSearch and not empty providerController.patientInsuranceList}">
-    <h:commandButton value="Back to PatientLists" action="#{providerController.backToPatients}"/>
-</h:panelGroup>
+    </h:dataTable>
 
-
-
+    <h:panelGroup rendered="#{providerController.cameFromPatientSearch and providerController.showInsuranceFlag}">
+        <h:commandButton value="Back to PatientLists" action="#{providerController.backToPatients}"/>
+    </h:panelGroup>
 </h:form>
-
+</h:panelGroup>
 </body>
 </html>
 </f:view>
+
