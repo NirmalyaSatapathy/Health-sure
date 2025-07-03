@@ -1,6 +1,8 @@
 package com.java.jsf.provider.controller;
 
+import java.lang.reflect.Field;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import com.java.ejb.provider.model.Prescription;
 import com.java.ejb.provider.model.ProcedureTest;
 import com.java.ejb.provider.model.Provider;
 import com.java.ejb.recipient.model.Recipient;
+import com.java.jsf.insurance.model.SubscribedMember;
 import com.java.jsf.provider.daoImpl.InsuranceDaoImpl;
 import com.java.jsf.provider.daoImpl.ProviderDaoImpl;
 import com.java.ejb.provider.model.Appointment;
@@ -28,6 +31,206 @@ String doctorId;
 String healthId;
 String patientName;
 String matchType="startsWith";
+private String sortField;
+private String selectedPatientId;
+private boolean showInsuranceTable;
+private boolean showPatientsFlag = false;
+private boolean showInsuranceFlag = false;
+private List<SubscribedMember> subscribedMembers;
+boolean cameFromPatientSearch;
+public boolean isCameFromPatientSearch() {
+	return cameFromPatientSearch;
+}
+
+public void setCameFromPatientSearch(boolean cameFromPatientSearch) {
+	this.cameFromPatientSearch = cameFromPatientSearch;
+}
+
+public void setSubscribedMembers(List<SubscribedMember> subscribedMembers) {
+	this.subscribedMembers = subscribedMembers;
+}
+
+public List<SubscribedMember> getSubscribedMembers() {
+    if (subscribedMembers == null) {
+        subscribedMembers = loadSubscribedMembers().getSubscribedMembers();
+    }
+    return subscribedMembers;
+}
+
+public boolean isShowPatientsFlag() {
+	return showPatientsFlag;
+}
+
+
+
+
+public void setShowPatientsFlag(boolean showPatientsFlag) {
+	this.showPatientsFlag = showPatientsFlag;
+}
+
+
+
+
+public boolean isShowInsuranceFlag() {
+	return showInsuranceFlag;
+}
+
+
+
+
+public void setShowInsuranceFlag(boolean showInsuranceFlag) {
+	this.showInsuranceFlag = showInsuranceFlag;
+}
+
+
+
+
+public String getSelectedPatientId() {
+	return selectedPatientId;
+}
+
+
+
+
+public void setSelectedPatientId(String selectedPatientId) {
+	this.selectedPatientId = selectedPatientId;
+}
+
+
+
+
+public boolean isShowInsuranceTable() {
+	return showInsuranceTable;
+}
+
+
+
+
+public void setShowInsuranceTable(boolean showInsuranceTable) {
+	this.showInsuranceTable = showInsuranceTable;
+}
+private boolean ascending = true;
+
+public void sortBy(String listType, String field) {
+    if (field.equals(sortField)) {
+        ascending = !ascending; // Toggle direction
+    } else {
+        sortField = field;
+        ascending = true;
+    }
+
+    switch (listType) {
+        case "insurance":
+            sortInsuranceList();
+            break;
+        case "patients":
+            patientInsuranceList = null;
+            selectedPatientId = null;
+            showInsuranceTable = false;
+            sortAssociatedPatients();
+            break;
+        case "members":
+            sortSubscribedMembers();
+            break;
+    }
+}
+
+public String getSortField() {
+	return sortField;
+}
+
+
+
+public void setSortField(String sortField) {
+	this.sortField = sortField;
+}
+
+
+
+public boolean isAscending() {
+	return ascending;
+}
+
+
+
+public void setAscending(boolean ascending) {
+	this.ascending = ascending;
+}
+
+
+public String backToPatients() {
+    // Clear insurance-related data
+    patientInsuranceList = null;
+    showInsuranceFlag = false;
+
+    // Keep patients list visible
+    showPatientsFlag = true;
+
+    // Optionally, clear messages
+    topMessage = null;
+
+    // Stay on the same page
+    return null;
+}
+private void sortSubscribedMembers() {
+    if (subscribedMembers == null || sortField == null) return;
+
+    Collections.sort(subscribedMembers, (m1, m2) -> {
+        try {
+            Field f = m1.getClass().getDeclaredField(sortField);
+            f.setAccessible(true);
+            Comparable v1 = (Comparable) f.get(m1);
+            Comparable v2 = (Comparable) f.get(m2);
+            return ascending ? v1.compareTo(v2) : v2.compareTo(v1);
+        } catch (Exception e) {
+            return 0;
+        }
+    });
+}
+
+private void sortAssociatedPatients() {
+    if (associatedPatients == null || sortField == null) return;
+
+    Collections.sort(associatedPatients, (p1, p2) -> {
+        try {
+            Field f = p1.getClass().getDeclaredField(sortField);
+            f.setAccessible(true);
+            Comparable v1 = (Comparable) f.get(p1);
+            Comparable v2 = (Comparable) f.get(p2);
+            return ascending ? v1.compareTo(v2) : v2.compareTo(v1);
+        } catch (Exception e) {
+            return 0;
+        }
+    });
+}
+
+private void sortInsuranceList() {
+    if (patientInsuranceList == null || sortField == null) return;
+
+    Collections.sort(patientInsuranceList, (i1, i2) -> {
+        try {
+            Field f = i1.getClass().getDeclaredField(sortField);
+            f.setAccessible(true);
+            Object v1 = f.get(i1);
+            Object v2 = f.get(i2);
+
+            if (v1 == null || v2 == null) return 0;
+
+            if (v1 instanceof Date && v2 instanceof Date) {
+                return ascending ? ((Date) v1).compareTo((Date) v2) : ((Date) v2).compareTo((Date) v1);
+            } else if (v1 instanceof Comparable && v2 instanceof Comparable) {
+                return ascending ? ((Comparable) v1).compareTo(v2) : ((Comparable) v2).compareTo(v1);
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+    });
+}
+
+
+
 public String getMatchType() {
 	return matchType;
 }
@@ -281,12 +484,16 @@ public String prescriptionDetailsSubmit()
 	return "ProcedureDashboard?faces-redirect=true";
 }
 public String handleSearch() {
+	cameFromPatientSearch = true;
     insuranceDaoImpl = new InsuranceDaoImpl();
     providerDao = new ProviderDaoImpl();
     FacesContext context = FacesContext.getCurrentInstance();
+
     topMessage = null;
     patientInsuranceList = null;
     associatedPatients = null;
+    showPatientsFlag = false;
+    showInsuranceFlag = false;
 
     if (doctorId == null || doctorId.trim().isEmpty()) {
         context.addMessage("doctorId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -302,6 +509,7 @@ public String handleSearch() {
     }
 
     if (healthId != null && !healthId.trim().isEmpty()) {
+    	cameFromPatientSearch=false;
         Recipient recipient = providerDao.searchRecipientByHealthId(healthId);
         if (recipient == null) {
             context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -348,7 +556,10 @@ public String handleSearch() {
         if (patientInsuranceList == null || patientInsuranceList.isEmpty()) {
             context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "No insurance found for patient ID: " + healthId, null));
+        } else {
+            showInsuranceFlag = true;
         }
+
     } else if (patientName != null && !patientName.trim().isEmpty()) {
         associatedPatients = providerDao.searchPatientsByName(doctorId, patientName, matchType);
         if (associatedPatients == null || associatedPatients.isEmpty()) {
@@ -359,17 +570,23 @@ public String handleSearch() {
             context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "No patients found under Doctor ID " + doctorId +
                     " whose name " + readableMatch + " '" + patientName + "'", null));
+        } else {
+            showPatientsFlag = true;
         }
+
     } else {
         associatedPatients = providerDao.getPatientListByDoctorId(doctorId);
         if (associatedPatients == null || associatedPatients.isEmpty()) {
             context.addMessage("doctorId", new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "No patients found for Doctor ID: " + doctorId, null));
+        } else {
+            showPatientsFlag = true;
         }
     }
 
     return null;
 }
+
 
 
 public String showInsuranceForPatient(String hId) {
@@ -378,12 +595,17 @@ public String showInsuranceForPatient(String hId) {
     
     if (patientInsuranceList == null || patientInsuranceList.isEmpty()) {
         topMessage = "No insurance found for patient ID: " + hId;
+        showInsuranceFlag = false;
+        showPatientsFlag=true;
     } else {
-        topMessage = null; // Clear message if insurance is found
+        topMessage = null;
+        showInsuranceFlag = true;
+        showPatientsFlag=false;
     }
-    
+
     return null;
 }
+
 
 
 

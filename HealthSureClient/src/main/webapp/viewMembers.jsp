@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsf/core" %>
 <%@ taglib prefix="h" uri="http://java.sun.com/jsf/html" %>
 
@@ -40,6 +40,11 @@
         .data-table tr:hover {
             background-color: #e6f7ff;
         }
+        .back-button {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -47,39 +52,56 @@
 <h2>Subscribed Family Members</h2>
 
 <h:form>
-    <h:dataTable value="#{providerController.loadSubscribedMembers().subscribedMembers}" var="member"
-                 styleClass="data-table">
+    <h:dataTable value="#{providerController.subscribedMembers}" var="member" styleClass="data-table">
 
         <h:column>
-            <f:facet name="header"><h:outputText value="Member ID" /></f:facet>
+            <f:facet name="header">
+                <h:commandLink value="Member ID" action="#{providerController.sortBy('members', 'memberId')}" />
+            </f:facet>
             <h:outputText value="#{member.memberId}" />
         </h:column>
 
         <h:column>
-            <f:facet name="header"><h:outputText value="Full Name" /></f:facet>
+            <f:facet name="header">
+                <h:commandLink value="Full Name" action="#{providerController.sortBy('members', 'fullName')}" />
+            </f:facet>
             <h:outputText value="#{member.fullName}" />
         </h:column>
 
         <h:column>
-            <f:facet name="header"><h:outputText value="Age" /></f:facet>
+            <f:facet name="header">
+                <h:commandLink value="Age" action="#{providerController.sortBy('members', 'age')}" />
+            </f:facet>
             <h:outputText value="#{member.age}" />
         </h:column>
 
         <h:column>
-            <f:facet name="header"><h:outputText value="Gender" /></f:facet>
+            <f:facet name="header">
+                <h:commandLink value="Gender" action="#{providerController.sortBy('members', 'gender')}" />
+            </f:facet>
             <h:outputText value="#{member.gender}" />
         </h:column>
 
         <h:column>
-            <f:facet name="header"><h:outputText value="Relation" /></f:facet>
+            <f:facet name="header">
+                <h:commandLink value="Relation" action="#{providerController.sortBy('members', 'relationWithProposer')}" />
+            </f:facet>
             <h:outputText value="#{member.relationWithProposer}" />
         </h:column>
 
         <h:column>
-            <f:facet name="header"><h:outputText value="Aadhar No" /></f:facet>
+            <f:facet name="header">
+                <h:commandLink value="Aadhar No" action="#{providerController.sortBy('members', 'aadharNo')}" />
+            </f:facet>
             <h:outputText value="#{member.aadharNo}" />
         </h:column>
+
     </h:dataTable>
+
+    <!-- Back Button -->
+    <div class="back-button">
+        <h:commandButton value="Back to Insurance Details" action="showInsuranceDetails" />
+    </div>
 </h:form>
 
 </body>

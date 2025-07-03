@@ -23,17 +23,22 @@ INSERT INTO Insurance_coverage_option VALUES
 INSERT INTO Recipient VALUES
 ('H001', 'Amit', 'Verma', '9876543210', 'amitv', 'MALE', '1990-01-15', '123, Sector 45, Delhi', CURRENT_TIMESTAMP, 'amit@123', 'amitv@example.com', 'ACTIVE', 0, NULL, NULL, CURRENT_TIMESTAMP),
 ('H002', 'Priya', 'Sharma', '9988776655', 'priyash', 'FEMALE', '1985-08-20', '456, MG Road, Mumbai', CURRENT_TIMESTAMP, 'priya@123', 'priya@example.com', 'ACTIVE', 0, NULL, NULL, CURRENT_TIMESTAMP);
-
+INSERT INTO Recipient VALUES
+('H003', 'Sonia', 'Kapoor', '9998887770', 'soniak', 'FEMALE', '1992-04-10', '789, South Ex, Delhi', CURRENT_TIMESTAMP, 'sonia@123', 'sonia@example.com', 'ACTIVE', 0, NULL, NULL, CURRENT_TIMESTAMP),
+('H004', 'Aarav', 'Gupta', '8887776665', 'aaravg', 'MALE', '1995-06-15', '321, West Enclave, Mumbai', CURRENT_TIMESTAMP, 'aarav@123', 'aarav@example.com', 'ACTIVE', 0, NULL, NULL, CURRENT_TIMESTAMP),
+('H005', 'Neha', 'Singh', '7776665554', 'nehas', 'FEMALE', '1993-12-22', '654, East End, Bangalore', CURRENT_TIMESTAMP, 'neha@123', 'neha@example.com', 'ACTIVE', 0, NULL, NULL, CURRENT_TIMESTAMP);
 
 
 -- Subscribe Table
 INSERT INTO subscribe VALUES
-('SUB001', 'H001', 'COV001', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'INDIVIDUAL', 'ACTIVE', 5000.00, 5000.00),
-('SUB002', 'H001', 'COV002', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'FAMILY', 'ACTIVE', 12000.00, 12000.00),
-('SUB003', 'H001', 'COV002', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'Individual', 'ACTIVE', 12000.00, 12000.00),
-('SUB004', 'H001', 'COV002', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 'FAMILY', 'ACTIVE', 12000.00, 12000.00);
-
-
+('SUB001', 'H001', 'COV001', '2023-08-01', '2024-08-01', 'INDIVIDUAL', 'ACTIVE', 5000.00, 5000.00),
+('SUB002', 'H001', 'COV002', '2024-01-15', '2025-01-15', 'FAMILY', 'ACTIVE', 1000.00, 12000.00),
+('SUB003', 'H001', 'COV002', '2024-10-10', '2025-10-10', 'Individual', 'ACTIVE', 500.00, 1000.00),
+('SUB004', 'H001', 'COV002', '2023-12-05', '2024-12-05', 'FAMILY', 'ACTIVE', 1100.00, 1100.00);
+INSERT INTO subscribe VALUES
+('SUB005', 'H003', 'COV001', '2024-02-01', '2025-02-01', 'INDIVIDUAL', 'ACTIVE', 10000.00, 10000.00),
+('SUB006', 'H004', 'COV001', '2023-11-15', '2024-11-15', 'INDIVIDUAL', 'ACTIVE', 5000.00, 5000.00),
+('SUB007', 'H005', 'COV001', '2024-07-01', '2025-07-01', 'INDIVIDUAL', 'ACTIVE', 5000.00, 5000.00);
 -- Subscribed Members
 INSERT INTO subscribed_members VALUES
 ('MEM001', 'SUB002', 'Priya Sharma', 40, 'FEMALE', 'Self', 'AADHAR1234'),
@@ -41,7 +46,10 @@ INSERT INTO subscribed_members VALUES
 ('MEM003', 'SUB002', 'Ananya Sharma', 15, 'FEMALE', 'Child', 'AADHAR9101'),
 ('MEM004', 'SUB004', 'rohit Sharma', 15, 'MALE', 'child', 'AADHAR9101'),
 ('MEM005', 'SUB004', 'karn Sharma', 15, 'MALE', 'Child', 'AADHAR9102');
-
+INSERT INTO subscribed_members VALUES
+('MEM006', 'SUB005', 'Sonia Kapoor', 32, 'FEMALE', 'Self', 'AADHAR003'),
+('MEM007', 'SUB006', 'Aarav Gupta', 30, 'MALE', 'Self', 'AADHAR004'),
+('MEM008', 'SUB007', 'Neha Singh', 31, 'FEMALE', 'Self', 'AADHAR005');
 
 
 -- Doctors
@@ -97,25 +105,42 @@ INSERT INTO Doctor_availability (availability_id, doctor_id, available_date, sta
 INSERT INTO Appointment (appointment_id, doctor_id, h_id, availability_id, provider_id, requested_at, status, notes) VALUES
 ('APT001', 'DOC001', 'H001', 'AVAIL001', 'PROV001', '2025-06-01 10:00:00', 'BOOKED', 'Routine Checkup'),
 ('APT002', 'DOC002', 'H002', 'AVAIL002', 'PROV001', '2025-06-02 14:30:00', 'BOOKED', 'Follow-up Visit');
-
-
+INSERT INTO Appointment (appointment_id, doctor_id, h_id, availability_id, provider_id, requested_at, status, notes) VALUES
+('APT007', 'DOC002', 'H001', 'AVAIL001', 'PROV001', '2025-07-01 09:15:00', 'BOOKED', 'Initial consultation'),
+('APT006', 'DOC002', 'H003', 'AVAIL001', 'PROV001', '2025-07-01 09:15:00', 'BOOKED', 'Initial consultation');
+INSERT INTO Appointment (appointment_id, doctor_id, h_id, availability_id, provider_id, requested_at, status, notes) VALUES
+('APT003', 'DOC001', 'H003', 'AVAIL001', 'PROV001', '2025-07-01 09:15:00', 'BOOKED', 'Initial consultation'),
+('APT004', 'DOC001', 'H004', 'AVAIL001', 'PROV001', '2025-07-01 09:45:00', 'BOOKED', 'Back pain evaluation'),
+('APT005', 'DOC001', 'H005', 'AVAIL001', 'PROV001', '2025-07-01 10:15:00', 'BOOKED', 'Follow-up visit');
 
 -- Medical Procedures
 INSERT INTO medical_procedure VALUES
 ('PROC001', 'APT001', 'H001', 'PROV001', 'DOC001', '2025-06-03', 'Appendicitis', 'Surgery recommended', CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP),
 ('PROC002', 'APT002', 'H002', 'PROV001', 'DOC002', '2025-06-04', 'Fracture in arm', 'Cast applied; rest for 6 weeks', CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP);
-
+INSERT INTO medical_procedure VALUES
+('PROC003', 'APT006', 'H003', 'PROV001', 'DOC002', '2025-07-01', 'Cold & fever', 'Rest and medication advised', CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP),
+('PROC004', 'APT007', 'H004', 'PROV001', 'DOC002', '2025-07-01', 'Sprain', 'Bandage and 1 week rest', CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP),
+('PROC005', 'APT005', 'H005', 'PROV001', 'DOC001', '2025-07-01', 'Thyroid checkup', 'Blood test prescribed', CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP),
+('PROC008', 'APT003', 'H003', 'PROV001', 'DOC001', '2025-07-01', 'Migraine', 'Medication and rest advised', CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP),
+('PROC009', 'APT004', 'H004', 'PROV001', 'DOC001', '2025-07-01', 'Lower back pain', 'Physiotherapy suggested', CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP),
+('PROC0010', 'APT005', 'H005', 'PROV001', 'DOC001', '2025-07-01', 'Thyroid checkup', 'Blood test prescribed', CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP);
 
 
 -- Claims
 INSERT INTO Claims VALUES
 ('CLM001', 'SUB001', 'PROC001', 'PROV001', 'H001', 'APPROVED', '2025-06-05 19:06:47', 10000.00, 8000.00),
 ('CLM002', 'SUB002', 'PROC002', 'PROV001', 'H002', 'APPROVED', '2025-06-05 19:06:47', 15000.00, 12000.00);
-
+INSERT INTO Claims VALUES
+('CLM003', 'SUB005', 'PROC003', 'PROV001', 'H003', 'APPROVED', CURRENT_TIMESTAMP, 3000.00, 2500.00),
+('CLM004', 'SUB006', 'PROC004', 'PROV001', 'H004', 'APPROVED', CURRENT_TIMESTAMP, 4000.00, 3000.00),
+('CLM005', 'SUB007', 'PROC005', 'PROV001', 'H005', 'APPROVED', CURRENT_TIMESTAMP, 2000.00, 1800.00);
 
 
 -- Claim_history
 INSERT INTO Claim_history VALUES
 ('CH001', 'CLM001', 'Claim approved successfully', '2025-06-06 10:00:00'),
 ('CH002', 'CLM002', 'Claim approved after review', '2025-06-06 11:30:00');
- 
+ INSERT INTO Claim_history VALUES
+('CH003', 'CLM003', 'Claim approved successfully', CURRENT_TIMESTAMP),
+('CH004', 'CLM004', 'Claim processed and approved', CURRENT_TIMESTAMP),
+('CH005', 'CLM005', 'Claim approved after verification', CURRENT_TIMESTAMP);
