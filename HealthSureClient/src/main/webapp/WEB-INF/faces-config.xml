@@ -49,6 +49,11 @@
     <managed-bean-class>com.java.ejb.provider.model.ProcedureTest</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
+ <managed-bean>
+        <managed-bean-name>providerDao</managed-bean-name>
+        <managed-bean-class>com.java.jsf.provider.daoImpl.ProviderDaoImpl</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 <managed-bean>
 	<managed-bean-name>insuranceDaoImpl</managed-bean-name>
     <managed-bean-class>com.java.jsf.provider.daoImpl.InsuranceDaoImpl</managed-bean-class>
@@ -74,4 +79,19 @@
             <value>#{insuranceDaoImpl}</value>
     </managed-property>
 </managed-bean>
+ <managed-bean>
+        <managed-bean-name>insuranceController</managed-bean-name>
+        <managed-bean-class>com.java.jsf.provider.controller.InsuranceController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>insuranceDaoImpl</property-name>
+            <property-class>com.java.jsf.provider.daoImpl.InsuranceDaoImpl</property-class>
+            <value>#{insuranceDaoImpl}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>providerDao</property-name>
+            <property-class>com.java.jsf.provider.daoImpl.ProviderDaoImpl</property-class>
+            <value>#{providerDao}</value>
+        </managed-property>
+    </managed-bean>
 </faces-config>

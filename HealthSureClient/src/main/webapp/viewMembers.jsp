@@ -40,6 +40,10 @@
         .data-table tr:hover {
             background-color: #e6f7ff;
         }
+        .pagination-controls {
+            margin-top: 15px;
+            text-align: center;
+        }
         .back-button {
             margin-top: 20px;
             display: flex;
@@ -52,51 +56,67 @@
 <h2>Subscribed Family Members</h2>
 
 <h:form>
-    <h:dataTable value="#{providerController.subscribedMembers}" var="member" styleClass="data-table">
+    <h:dataTable value="#{insuranceController.getPaginatedSubscribedMembers()}" var="member" styleClass="data-table">
 
         <h:column>
             <f:facet name="header">
-                <h:commandLink value="Member ID" action="#{providerController.sortBy('members', 'memberId')}" />
+                <h:commandLink value="Member ID" action="#{insuranceController.sortBy('members', 'memberId')}" />
             </f:facet>
             <h:outputText value="#{member.memberId}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                <h:commandLink value="Full Name" action="#{providerController.sortBy('members', 'fullName')}" />
+                <h:commandLink value="Full Name" action="#{insuranceController.sortBy('members', 'fullName')}" />
             </f:facet>
             <h:outputText value="#{member.fullName}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                <h:commandLink value="Age" action="#{providerController.sortBy('members', 'age')}" />
+                <h:commandLink value="Age" action="#{insuranceController.sortBy('members', 'age')}" />
             </f:facet>
             <h:outputText value="#{member.age}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                <h:commandLink value="Gender" action="#{providerController.sortBy('members', 'gender')}" />
+                <h:commandLink value="Gender" action="#{insuranceController.sortBy('members', 'gender')}" />
             </f:facet>
             <h:outputText value="#{member.gender}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                <h:commandLink value="Relation" action="#{providerController.sortBy('members', 'relationWithProposer')}" />
+                <h:commandLink value="Relation" action="#{insuranceController.sortBy('members', 'relationWithProposer')}" />
             </f:facet>
             <h:outputText value="#{member.relationWithProposer}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                <h:commandLink value="Aadhar No" action="#{providerController.sortBy('members', 'aadharNo')}" />
+                <h:commandLink value="Aadhar No" action="#{insuranceController.sortBy('members', 'aadharNo')}" />
             </f:facet>
             <h:outputText value="#{member.aadharNo}" />
         </h:column>
 
     </h:dataTable>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-controls">
+        <h:commandButton value="First" action="#{insuranceController.setMemberFirst(0)}"
+                         disabled="#{insuranceController.memberFirst == 0}" />
+        <h:commandButton value="Previous" action="#{insuranceController.previousMemberPage()}"
+                         disabled="#{insuranceController.memberFirst == 0}" />
+        <h:outputText value="Page #{insuranceController.memberCurrentPage} of #{insuranceController.memberTotalPages}"
+                      style="margin: 0 10px;" />
+        <h:commandButton value="Next" action="#{insuranceController.nextMemberPage()}"
+                         disabled="#{!insuranceController.isMemberHasNextPage()}" />
+        <h:commandButton value="Last"
+                         action="#{insuranceController.setMemberFirst(insuranceController.subscribedMembers.size() - 
+                         (insuranceController.subscribedMembers.size() mod insuranceController.memberPageSize))}"
+                         disabled="#{!insuranceController.isMemberHasNextPage()}" />
+    </div>
 
     <!-- Back Button -->
     <div class="back-button">
