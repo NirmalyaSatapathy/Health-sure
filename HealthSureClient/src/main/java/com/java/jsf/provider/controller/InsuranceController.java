@@ -167,14 +167,17 @@ public class InsuranceController {
         return associatedPatients == null ? Collections.emptyList() : associatedPatients;
     }
     public List<SubscribedMember> getPaginatedSubscribedMembers() {
-        List<SubscribedMember> fullList = loadSubscribedMembers().getSubscribedMembers();
-        if (fullList == null) return Collections.emptyList();
-        int toIndex = Math.min(memberFirst + memberPageSize, fullList.size());
-        return fullList.subList(memberFirst, toIndex);
+        if (subscribedMembers == null || subscribedMembers.isEmpty()) {
+            return Collections.emptyList();  // Avoid NPE or division by 0
+        }
+
+        int toIndex = Math.min(memberFirst + memberPageSize, subscribedMembers.size());
+        return subscribedMembers.subList(memberFirst, toIndex);
     }
 
+
     private List<SubscribedMember> getSubscribedMembersFullList() {
-        return loadSubscribedMembers().getSubscribedMembers();
+        return subscribedMembers;
     }
     public boolean isPatientHasNextPage() {
         return patientFirst + patientPageSize < (associatedPatients != null ? associatedPatients.size() : 0);
@@ -183,9 +186,10 @@ public class InsuranceController {
         return insuranceFirst + insurancePageSize < (patientInsuranceList != null ? patientInsuranceList.size() : 0);
     }
     public boolean isMemberHasNextPage() {
-        List<SubscribedMember> fullList = loadSubscribedMembers().getSubscribedMembers();
-        return memberFirst + memberPageSize < (fullList != null ? fullList.size() : 0);
+        return subscribedMembers != null && memberFirst + memberPageSize < subscribedMembers.size();
     }
+
+
 
 
     public boolean isPatientHasPrevPage() {
@@ -312,7 +316,6 @@ public class InsuranceController {
     }
 
     public List<SubscribedMember> getSubscribedMembers() {
-        subscribedMembers = loadSubscribedMembers().getSubscribedMembers();
         return subscribedMembers;
     }
 
@@ -509,26 +512,14 @@ public class InsuranceController {
             showInsuranceFlag = true;
             showPatientsFlag = false;
         }
-
+        this.insuranceFirst=0;
         return null;
     }
 
     public String redirect(PatientInsuranceDetails insurance) {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        System.out.println("_________________________redirecting to view members "+insurance);
-        Map<String, Object> session = ctx.getExternalContext().getSessionMap();
-        session.remove("selectedInsurance");
-        session.put("selectedInsurance", insurance);
-        System.out.println("passed insurance"+session.get("selectedInsurance"));
+    	subscribedMembers=insurance.getSubscribedMembers();
+        this.memberFirst = 0;
         return "viewMembers?faces-redirect=true&ts=" + System.currentTimeMillis();
-    }
-
-    public PatientInsuranceDetails loadSubscribedMembers() {
-        Object obj = FacesContext.getCurrentInstance()
-                                 .getExternalContext()
-                                 .getSessionMap()
-                                 .get("selectedInsurance");
-        return (PatientInsuranceDetails)obj;
     }
 
     public void sortBy(String listType, String field) {

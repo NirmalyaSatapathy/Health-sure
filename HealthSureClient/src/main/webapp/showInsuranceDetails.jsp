@@ -94,14 +94,14 @@
         <h:dataTable value="#{insuranceController.getPaginatedAssociatedPatients()}" var="patient" styleClass="data-table">
             <h:column>
                 <f:facet name="header">
-                    <h:commandLink value="Health Id#{insuranceController.sortField eq 'hId' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
+                    <h:commandLink value="Health Id#{insuranceController.sortField eq 'hId' ? (insuranceController.ascending ? ' ↑' : ' ↓') : ''}"
                                    action="#{insuranceController.sortBy('patients', 'hId')}" />
                 </f:facet>
                 <h:outputText value="#{patient.hId}" />
             </h:column>
             <h:column>
                 <f:facet name="header">
-                    <h:commandLink value="User Name#{insuranceController.sortField eq 'userName' ? (providerController.ascending ? ' ↑' : ' ↓') : ''}"
+                    <h:commandLink value="User Name#{insuranceController.sortField eq 'userName' ? (insuranceController.ascending ? ' ↑' : ' ↓') : ''}"
                                    action="#{insuranceController.sortBy('patients', 'userName')}" />
                 </f:facet>
                 <h:outputText value="#{patient.userName}" />
@@ -126,21 +126,33 @@
             </h:column>
         </h:dataTable>
 
-        <!-- Pagination for patients -->
-      <h:panelGroup>
-    <h:commandButton value="First" action="#{insuranceController.setPatientFirst(0)}"
-                     disabled="#{insuranceController.patientFirst == 0}" />
-    <h:commandButton value="Previous" action="#{insuranceController.previousPatientPage()}"
-                     disabled="#{insuranceController.patientFirst == 0}" />
-   <h:outputText value="Page #{insuranceController.associatedPatientsCurrentPage} of #{insuranceController.associatedPatientsTotalPages}"
-              style="margin: 0 10px;" />
+       <!-- Pagination Controls -->
+<h:panelGroup layout="block" style="margin-top: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- Left side buttons -->
+        <div>
+            <h:commandButton value="First" action="#{insuranceController.setPatientFirst(0)}"
+                             disabled="#{insuranceController.patientFirst == 0}" />
+            <h:commandButton value="Previous" action="#{insuranceController.previousPatientPage()}"
+                             disabled="#{insuranceController.patientFirst == 0}" />
+        </div>
 
-    <h:commandButton value="Next" action="#{insuranceController.nextPatientPage()}"
-                     disabled="#{!insuranceController.isPatientHasNextPage()}" />
-    <h:commandButton value="Last"
-                     action="#{insuranceController.setPatientFirst(insuranceController.associatedPatients.size() - (insuranceController.associatedPatients.size() mod insuranceController.patientPageSize))}"
-                     disabled="#{!insuranceController.isPatientHasNextPage()}" />
+        <!-- Center page text -->
+        <div>
+            <h:outputText value="Page #{insuranceController.associatedPatientsCurrentPage} of #{insuranceController.associatedPatientsTotalPages}" />
+        </div>
+
+        <!-- Right side buttons -->
+        <div>
+            <h:commandButton value="Next" action="#{insuranceController.nextPatientPage()}"
+                             disabled="#{!insuranceController.isPatientHasNextPage()}" />
+            <h:commandButton value="Last"
+                             action="#{insuranceController.setPatientFirst(insuranceController.associatedPatients.size() - (insuranceController.associatedPatients.size() mod insuranceController.patientPageSize))}"
+                             disabled="#{!insuranceController.isPatientHasNextPage()}" />
+        </div>
+    </div>
 </h:panelGroup>
+
 
     </h:form>
 </h:panelGroup>
@@ -249,20 +261,33 @@
             </h:column>
         </h:dataTable>
 
-       <h:panelGroup>
-    <h:commandButton value="First" action="#{insuranceController.setInsuranceFirst(0)}"
-                     disabled="#{insuranceController.insuranceFirst == 0}" />
-    <h:commandButton value="Previous" action="#{insuranceController.previousInsurancePage()}"
-                     disabled="#{insuranceController.insuranceFirst == 0}" />
-    <h:outputText value="Page #{insuranceController.insuranceCurrentPage} of #{insuranceController.insuranceTotalPages}"
-              style="margin: 0 10px;" />
+      <!-- Repeat the same structure for insurance pagination -->
+<h:panelGroup layout="block" style="margin-top: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- Left side buttons -->
+        <div>
+            <h:commandButton value="First" action="#{insuranceController.setInsuranceFirst(0)}"
+                             disabled="#{insuranceController.insuranceFirst == 0}" />
+            <h:commandButton value="Previous" action="#{insuranceController.previousInsurancePage()}"
+                             disabled="#{insuranceController.insuranceFirst == 0}" />
+        </div>
 
-    <h:commandButton value="Next" action="#{insuranceController.nextInsurancePage()}"
-                     disabled="#{!insuranceController.isInsuranceHasNextPage()}" />
-    <h:commandButton value="Last"
-                     action="#{insuranceController.setInsuranceFirst(insuranceController.patientInsuranceList.size() - (insuranceController.patientInsuranceList.size() mod insuranceController.insurancePageSize))}"
-                     disabled="#{!insuranceController.isInsuranceHasNextPage()}" />
+        <!-- Center page text -->
+        <div>
+            <h:outputText value="Page #{insuranceController.insuranceCurrentPage} of #{insuranceController.insuranceTotalPages}" />
+        </div>
+
+        <!-- Right side buttons -->
+        <div>
+            <h:commandButton value="Next" action="#{insuranceController.nextInsurancePage()}"
+                             disabled="#{!insuranceController.isInsuranceHasNextPage()}" />
+            <h:commandButton value="Last"
+                             action="#{insuranceController.setInsuranceFirst(insuranceController.patientInsuranceList.size() - (insuranceController.patientInsuranceList.size() mod insuranceController.insurancePageSize))}"
+                             disabled="#{!insuranceController.isInsuranceHasNextPage()}" />
+        </div>
+    </div>
 </h:panelGroup>
+
 <br>
  <h:panelGroup rendered="#{insuranceController.cameFromPatientSearch and insuranceController.showInsuranceFlag}">
         <h:commandButton value="Back to PatientLists" action="#{insuranceController.backToPatients}"/>
