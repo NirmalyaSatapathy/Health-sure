@@ -526,10 +526,19 @@ public class InsuranceController {
     }
 
     public String redirect(PatientInsuranceDetails insurance) {
-    	subscribedMembers=insurance.getSubscribedMembers();
+        this.subscribedMembers = insurance.getSubscribedMembers();
         this.memberFirst = 0;
+
+        if (this.subscribedMembers == null || this.subscribedMembers.isEmpty()) {
+            this.topMessage = "No members added to this family plan.";
+            return null;
+        } else {
+            this.topMessage = null; // Clear any previous message
+        }
+
         return "viewMembers?faces-redirect=true&ts=" + System.currentTimeMillis();
     }
+
 
     public void sortBy(String listType, String field) {
         if (field.equals(sortField)) {
@@ -619,4 +628,10 @@ public class InsuranceController {
         topMessage = null;
         return null;
     }
+    public String pullTopMessage() {
+        String msg = this.topMessage;
+        this.topMessage = null;
+        return msg;
+    }
+
 }

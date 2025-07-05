@@ -56,6 +56,7 @@
 <h2>Subscribed Family Members</h2>
 
 <h:form>
+ <h:outputText value="Total members: #{insuranceController.subscribedMembers.size()}" style="font-weight: bold; margin-top: 10px; display: block;" />
     <h:dataTable value="#{insuranceController.getPaginatedSubscribedMembers()}" var="member" styleClass="data-table">
 
         <h:column>

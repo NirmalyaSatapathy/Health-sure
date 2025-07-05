@@ -90,7 +90,7 @@
 
 <!-- TOP MESSAGE -->
 <h:panelGroup rendered="#{not empty insuranceController.topMessage}">
-    <h:outputText value="#{insuranceController.topMessage}" style="color:red; font-weight:bold;" />
+    <h:outputText value="#{insuranceController.pullTopMessage()}" style="color:red; font-weight:bold;" />
     <br/><br/>
 </h:panelGroup>
 
