@@ -22,7 +22,7 @@ public class InsuranceController {
     private String doctorId;
     private String healthId;
     private String patientName;
-    private String matchType = "startsWith";
+    private String matchType;
     private String sortField;
     private boolean ascending = true;
     private boolean showInsuranceTable;
@@ -373,7 +373,7 @@ public class InsuranceController {
 
     // Business Methods
     public String handleSearch() {
-    	resetPagination();
+        resetPagination();
         cameFromPatientSearch = true;
         insuranceDaoImpl = new InsuranceDaoImpl();
         providerDao = new ProviderDaoImpl();
@@ -421,29 +421,29 @@ public class InsuranceController {
                 }
 
                 String fullName = (recipient.getFirstName() + recipient.getLastName()).toLowerCase().replaceAll("\\s+", "");
-                String reverseName = (recipient.getLastName() + recipient.getFirstName()).toLowerCase().replaceAll("\\s+", "");
                 String inputName = cleaned.toLowerCase();
 
-                boolean match = false;
-                switch (matchType.toLowerCase()) {
-                    case "startswith":
-                        match = fullName.startsWith(inputName);
-                        break;
-                    case "endswith":
-                        match = fullName.endsWith(inputName);
-                        break;
-                    case "contains":
-                        match = fullName.contains(inputName) || reverseName.contains(inputName);
-                        break;
-                    case "exact":
-                    default:
-                        match = fullName.equals(inputName);
-                        break;
+                boolean match;
+                if (matchType == null || matchType.trim().isEmpty()) {
+                    match = fullName.equals(inputName);
+                } else {
+                    switch (matchType.toLowerCase()) {
+                        case "startswith":
+                            match = fullName.startsWith(inputName);
+                            break;
+                        case "contains":
+                            match = fullName.contains(inputName);
+                            break;
+                        default:
+                            match = false;
+                    }
                 }
 
                 if (!match) {
                     context.addMessage("recipientId", new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Patient with ID " + healthId + " does not have a name that " + matchType + " '" + patientName + "'.", null));
+                            "Patient with ID " + healthId + " does not have a name that " +
+                            (matchType != null ? matchType : "matches exactly") +
+                            " '" + patientName + "'.", null));
                     return null;
                 }
             }
@@ -461,6 +461,7 @@ public class InsuranceController {
             } else {
                 showInsuranceFlag = true;
             }
+
         } else if (patientName != null && !patientName.trim().isEmpty()) {
             String cleaned = patientName.replaceAll("\\s+", "");
             if (cleaned.length() < 2) {
@@ -474,18 +475,26 @@ public class InsuranceController {
                 return null;
             }
 
-            associatedPatients = providerDao.searchPatientsByName(doctorId, patientName, matchType);
-            if (associatedPatients == null || associatedPatients.isEmpty()) {
-                String readableMatch = matchType.equalsIgnoreCase("startswith") ? "start with"
-                                      : matchType.equalsIgnoreCase("endswith") ? "end with"
-                                      : matchType.equalsIgnoreCase("exact") ? "exactly match"
-                                      : "contain";
-                context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_WARN,
-                        "No patients found under Doctor ID " + doctorId +
-                        " whose name " + readableMatch + " '" + patientName + "'", null));
+            if (matchType == null || matchType.trim().isEmpty()) {
+                associatedPatients = providerDao.searchPatientsByExactName(doctorId, patientName);
+                if (associatedPatients == null || associatedPatients.isEmpty()) {
+                    context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "No exact match found for patient name '" + patientName + "' under Doctor ID '" + doctorId + "'. Please select a match type for partial search.", null));
+                    return null;
+                }
             } else {
-                showPatientsFlag = true;
+                associatedPatients = providerDao.searchPatientsByName(doctorId, patientName, matchType);
+                if (associatedPatients == null || associatedPatients.isEmpty()) {
+                    String readableMatch = matchType.equalsIgnoreCase("startswith") ? "start with" : "contain";
+                    context.addMessage("patientName", new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "No patients found under Doctor ID " + doctorId +
+                            " whose name " + readableMatch + " '" + patientName + "'", null));
+                    return null;
+                }
             }
+
+            showPatientsFlag = true;
+
         } else {
             associatedPatients = providerDao.getPatientListByDoctorId(doctorId);
             if (associatedPatients == null || associatedPatients.isEmpty()) {
@@ -495,7 +504,7 @@ public class InsuranceController {
                 showPatientsFlag = true;
             }
         }
-
+        matchType=null;
         return null;
     }
 

@@ -50,35 +50,41 @@
 </head>
 <body>
 <h2>Patient insurance details</h2>
-
 <h:form prependId="false">
-    <h:panelGrid columns="4" cellpadding="5">
-        <h:outputLabel for="doctorId" value="Enter Doctor ID:" />
-        <h:inputText id="doctorId" value="#{insuranceController.doctorId}" />
-        <h:message for="doctorId" styleClass="error-message" />
-        <h:outputLabel />
+    <h:panelGrid columns="2" cellpadding="5">
 
+        <!-- Doctor ID -->
+        <h:outputLabel for="doctorId" escape="false" value="Enter Doctor ID: <span style='color:red;'>*</span>" />
+        <h:panelGroup layout="block">
+            <h:inputText id="doctorId" value="#{insuranceController.doctorId}" />
+            <h:message for="doctorId" styleClass="error-message" />
+        </h:panelGroup>
+
+        <!-- Patient ID -->
         <h:outputLabel for="recipientId" value="Enter Patient ID (optional):" />
-        <h:inputText id="recipientId" value="#{insuranceController.healthId}" />
-        <h:message for="recipientId" styleClass="error-message" />
-        <h:outputLabel />
+        <h:panelGroup layout="block">
+            <h:inputText id="recipientId" value="#{insuranceController.healthId}" />
+            <h:message for="recipientId" styleClass="error-message" />
+        </h:panelGroup>
 
+        <!-- Patient Name -->
         <h:outputLabel for="patientName" value="Patient Name (optional):" />
-        <h:inputText id="patientName" value="#{insuranceController.patientName}" />
-        <h:message for="patientName" styleClass="error-message" />
-        <h:outputLabel />
+        <h:panelGroup layout="block">
+            <h:inputText id="patientName" value="#{insuranceController.patientName}" />
+            <h:message for="patientName" styleClass="error-message" />
+        </h:panelGroup>
+        <h:panelGroup layout="block">
+            <h:selectOneRadio id="matchType" value="#{insuranceController.matchType}" layout="lineDirection">
+                <f:selectItem itemLabel="Starts With" itemValue="startsWith" />
+                <f:selectItem itemLabel="Contains" itemValue="contains" />
+            </h:selectOneRadio>
+            <h:message for="matchType" styleClass="error-message" />
+        </h:panelGroup>
 
-        <h:outputLabel for="matchType" value="Name Match Type:" />
-        <h:selectOneMenu id="matchType" value="#{insuranceController.matchType}">
-            <f:selectItem itemLabel="Starts With" itemValue="startsWith" />
-            <f:selectItem itemLabel="Ends With" itemValue="endsWith" />
-            <f:selectItem itemLabel="Contains" itemValue="contains" />
-            <f:selectItem itemLabel="Exact" itemValue="exact" />
-        </h:selectOneMenu>
-        <h:message for="matchType" styleClass="error-message" />
-
+        <!-- Submit Button with Empty Label Column -->
         <h:outputLabel />
         <h:commandButton value="Search" action="#{insuranceController.handleSearch}" />
+
     </h:panelGrid>
 </h:form>
 
@@ -91,6 +97,7 @@
 <!-- ASSOCIATED PATIENTS TABLE -->
 <h:panelGroup rendered="#{insuranceController.showPatientsFlag}">
     <h:form>
+    <h:outputText value="Total Associated Patients: #{insuranceController.associatedPatients.size()}" style="font-weight: bold; margin-top: 10px; display: block;" />
         <h:dataTable value="#{insuranceController.getPaginatedAssociatedPatients()}" var="patient" styleClass="data-table">
             <h:column>
                 <f:facet name="header">
@@ -126,6 +133,7 @@
             </h:column>
         </h:dataTable>
 
+
        <!-- Pagination Controls -->
 <h:panelGroup layout="block" style="margin-top: 10px;">
     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -160,6 +168,7 @@
 <!-- PATIENT INSURANCE TABLE -->
 <h:panelGroup rendered="#{insuranceController.showInsuranceFlag}">
     <h:form>
+    <h:outputText value="Total Insurance Records: #{insuranceController.patientInsuranceList.size()}" style="font-weight: bold; margin-top: 10px; display: block;" />
         <h:dataTable value="#{insuranceController.getPaginatedInsuranceList()}" var="insurance" styleClass="data-table">
             <h:column>
                 <f:facet name="header">

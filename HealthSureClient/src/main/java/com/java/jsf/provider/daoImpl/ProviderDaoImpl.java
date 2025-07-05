@@ -1,6 +1,7 @@
 package com.java.jsf.provider.daoImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -106,42 +107,31 @@ public class ProviderDaoImpl {
 		            namePattern = cleanedName + "%";
 		            hql = "SELECT DISTINCT a.recipient FROM Appointment a "
 		                + "WHERE a.doctor.doctorId = :doctorId AND "
-		                + "lower(concat(a.recipient.firstName, a.recipient.lastName)) LIKE :name";
-		            break;
-
-		        case "endswith":
-		            namePattern = "%" + cleanedName;
-		            hql = "SELECT DISTINCT a.recipient FROM Appointment a "
-		                + "WHERE a.doctor.doctorId = :doctorId AND "
-		                + "lower(concat(a.recipient.firstName, a.recipient.lastName)) LIKE :name";
+		                + "lower(replace(concat(a.recipient.firstName, a.recipient.lastName), ' ', '')) LIKE :name";
 		            break;
 
 		        case "contains":
 		            namePattern = "%" + cleanedName + "%";
 		            hql = "SELECT DISTINCT a.recipient FROM Appointment a "
-		                + "WHERE a.doctor.doctorId = :doctorId AND ("
-		                + "lower(replace(concat(a.recipient.firstName, ' ', a.recipient.lastName), ' ', '')) LIKE :name OR "
-		                + "lower(replace(concat(a.recipient.lastName, ' ', a.recipient.firstName), ' ', '')) LIKE :name)";
+		                + "WHERE a.doctor.doctorId = :doctorId AND "
+		                + "lower(replace(concat(a.recipient.firstName, a.recipient.lastName), ' ', '')) LIKE :name";
 		            break;
 
-		        case "exact":
 		        default:
-		            namePattern = cleanedName;
-		            hql = "SELECT DISTINCT a.recipient FROM Appointment a "
-		                + "WHERE a.doctor.doctorId = :doctorId AND "
-		                + "lower(replace(concat(a.recipient.firstName, a.recipient.lastName), ' ', '')) = :name";
-		            break;
+		            tx.commit();
+		            session.close();
+		            return Collections.emptyList(); // invalid match type
 		    }
 
 		    List<com.java.jsf.recipient.model.Recipient> jsfRecipientList = session.createQuery(hql)
-		        .setParameter("doctorId", doctorId)
-		        .setParameter("name", namePattern)
-		        .list();
+		            .setParameter("doctorId", doctorId)
+		            .setParameter("name", namePattern)
+		            .list();
 
 		    tx.commit();
 		    session.close();
 
-		    List<Recipient> ejbRecipientList = new ArrayList<Recipient>();
+		    List<Recipient> ejbRecipientList = new ArrayList<>();
 		    for (com.java.jsf.recipient.model.Recipient jsfRecipient : jsfRecipientList) {
 		        ejbRecipientList.add(Converter.convertToEJBRecipient(jsfRecipient));
 		    }
@@ -149,6 +139,31 @@ public class ProviderDaoImpl {
 		    return ejbRecipientList;
 		}
 
+	   public List<Recipient> searchPatientsByExactName(String doctorId, String name) {
+		    Session session = sessionFactory.openSession();
+		    Transaction tx = session.beginTransaction();
+
+		    String cleanedName = name.toLowerCase().replaceAll("\\s+", "");
+
+		    String hql = "SELECT DISTINCT a.recipient FROM Appointment a "
+		               + "WHERE a.doctor.doctorId = :doctorId AND "
+		               + "lower(replace(concat(a.recipient.firstName, a.recipient.lastName), ' ', '')) = :name";
+
+		    List<com.java.jsf.recipient.model.Recipient> jsfRecipientList = session.createQuery(hql)
+		            .setParameter("doctorId", doctorId)
+		            .setParameter("name", cleanedName)
+		            .list();
+
+		    tx.commit();
+		    session.close();
+
+		    List<Recipient> ejbRecipientList = new ArrayList<>();
+		    for (com.java.jsf.recipient.model.Recipient jsfRecipient : jsfRecipientList) {
+		        ejbRecipientList.add(Converter.convertToEJBRecipient(jsfRecipient));
+		    }
+
+		    return ejbRecipientList;
+		}
 
 	   
 }
