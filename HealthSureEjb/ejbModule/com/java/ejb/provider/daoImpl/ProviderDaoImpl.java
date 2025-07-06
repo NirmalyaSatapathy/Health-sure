@@ -2,6 +2,7 @@ package com.java.ejb.provider.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.java.ejb.provider.dao.ProviderDao;
@@ -98,8 +99,8 @@ public class ProviderDaoImpl implements ProviderDao{
 
 	    String sql = "INSERT INTO prescribed_medicines (" +
 	                 "prescribed_id, prescription_id, medicine_name, dosage, duration, notes, " +
-	                 "start_date, end_date, created_at) " +
-	                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	                 "start_date, end_date, created_at,medicine_type) " +
+	                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 	    PreparedStatement pst = con.prepareStatement(sql);
 
@@ -121,7 +122,7 @@ public class ProviderDaoImpl implements ProviderDao{
 	    pst.setTimestamp(9, prescribedMedicines.getCreatedAt() != null
 	            ? new java.sql.Timestamp(prescribedMedicines.getCreatedAt().getTime())
 	            : new java.sql.Timestamp(System.currentTimeMillis()));
-
+	    pst.setString(10, prescribedMedicines.getType().name());
 	    pst.executeUpdate();
 	    pst.close();
 	    con.close();
@@ -168,7 +169,111 @@ public class ProviderDaoImpl implements ProviderDao{
 
 	    return "inserted";
 	}
+	@Override
+	public  String generateNewProcedureId() throws SQLException, ClassNotFoundException {
+        String newProcedureId = "PROC001";
 
+        Connection con = ConnectionHelper.getConnection();
+        String sql = "SELECT procedure_id FROM medical_procedure ORDER BY procedure_id DESC LIMIT 1";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String latestId = rs.getString(1);
+            if (latestId != null && latestId.startsWith("PROC")) {
+                int currentNum = Integer.parseInt(latestId.substring(4));
+                currentNum++;
+                newProcedureId = (currentNum <= 999)
+                        ? "PROC" + String.format("%03d", currentNum)
+                        : "PROC999";
+            }
+        }
+
+        rs.close();
+        pst.close();
+        con.close();
+
+        System.out.println("________________________generated id is " + newProcedureId);
+        return newProcedureId;
+    }
+	@Override
+    public String generateNewPrescriptionId() throws SQLException, ClassNotFoundException {
+        String newPrescriptionId = "PRESC001";
+
+        Connection con = ConnectionHelper.getConnection();
+        String sql = "SELECT prescription_id FROM prescription ORDER BY prescription_id DESC LIMIT 1";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String latestId = rs.getString(1);
+            if (latestId != null && latestId.startsWith("PRESC")) {
+                int currentNum = Integer.parseInt(latestId.substring(5));
+                currentNum++;
+                newPrescriptionId = (currentNum <= 999)
+                        ? "PRESC" + String.format("%03d", currentNum)
+                        : "PRESC999";
+            }
+        }
+
+        rs.close();
+        pst.close();
+        con.close();
+
+        return newPrescriptionId;
+    }
+	@Override
+    public  String generateNewPrescribedMedicineId() throws SQLException, ClassNotFoundException {
+        String newPrescribedMedicineId = "PMED001";
+
+        Connection con = ConnectionHelper.getConnection();
+        String sql = "SELECT prescribed_id FROM prescribed_medicines ORDER BY prescribed_id DESC LIMIT 1";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String latestId = rs.getString(1);
+            if (latestId != null && latestId.startsWith("PMED")) {
+                int currentNum = Integer.parseInt(latestId.substring(4));
+                currentNum++;
+                newPrescribedMedicineId = (currentNum <= 999)
+                        ? "PMED" + String.format("%03d", currentNum)
+                        : "PMED999";
+            }
+        }
+
+        rs.close();
+        pst.close();
+        con.close();
+
+        return newPrescribedMedicineId;
+    }
+	@Override
+    public  String generateNewProcedureTestId() throws SQLException, ClassNotFoundException {
+        String newProcedureTestId = "PTEST001";
+
+        Connection con = ConnectionHelper.getConnection();
+        String sql = "SELECT test_id FROM prescribed_tests ORDER BY test_id DESC LIMIT 1";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String latestId = rs.getString(1);
+            if (latestId != null && latestId.startsWith("PTEST")) {
+                int currentNum = Integer.parseInt(latestId.substring(5));
+                currentNum++;
+                newProcedureTestId = (currentNum <= 999)
+                        ? "PTEST" + String.format("%03d", currentNum)
+                        : "PTEST999";
+            }
+        }
+
+        rs.close();
+        pst.close();
+        con.close();
+
+        return newProcedureTestId;
+    }
 	
 
 

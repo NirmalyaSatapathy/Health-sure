@@ -46,64 +46,98 @@
             margin-bottom: 25px;
             color: #2a3f54;
         }
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
         <div class="form-title">Add Prescribed Medicine</div>
 
-        <h:form id="addMedicineForm">
+        <h:form prependId="false">
+
+            <!-- Global error messages -->
+            <h:messages globalOnly="true" styleClass="error" />
+
             <div class="form-group">
                 <label for="prescribedId">Prescribed ID</label>
-                <h:inputText id="prescribedId" value="#{prescribedMedicine.prescribedId}" 
-                             required="true" styleClass="form-control"/>
+                <h:inputText id="prescribedId" value="#{procedureController.prescribedMedicines.prescribedId}" 
+                             readonly="true" styleClass="form-control"/>
             </div>
 
             <div class="form-group">
                 <label for="prescriptionId">Prescription ID</label>
-                <h:inputText id="prescriptionId" value="#{prescribedMedicine.prescription.prescriptionId}" 
+                <h:inputText id="prescriptionId" value="#{sessionScope.prescriptionId}" 
                              required="true" styleClass="form-control"/>
+                <h:message for="prescriptionId" styleClass="error"/>
             </div>
 
             <div class="form-group">
                 <label for="medicineName">Medicine Name</label>
-                <h:inputText id="medicineName" value="#{prescribedMedicine.medicineName}" 
+                <h:inputText id="medicineName" value="#{procedureController.prescribedMedicines.medicineName}" 
                              required="true" styleClass="form-control"/>
+                <h:message for="medicineName" styleClass="error"/>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Medicine Type</label>
+                <h:selectOneMenu id="type" value="#{procedureController.prescribedMedicines.type}" 
+                                 styleClass="form-control" required="true">
+                    <f:selectItem itemLabel="-- Select Type --" itemValue="" />
+                    <f:selectItem itemLabel="Tablet" itemValue="TABLET" />
+                    <f:selectItem itemLabel="Syrup" itemValue="SYRUP" />
+                    <f:selectItem itemLabel="Injection" itemValue="INJECTION" />
+                    <f:selectItem itemLabel="Drop" itemValue="DROP" />
+                </h:selectOneMenu>
+                <h:message for="type" styleClass="error"/>
             </div>
 
             <div class="form-group">
                 <label for="dosage">Dosage</label>
-                <h:inputText id="dosage" value="#{prescribedMedicine.dosage}" 
+                <h:inputText id="dosage" value="#{procedureController.prescribedMedicines.dosage}" 
                              required="true" styleClass="form-control"/>
+                <h:message for="dosage" styleClass="error"/>
             </div>
 
             <div class="form-group">
                 <label for="duration">Duration</label>
-                <h:inputText id="duration" value="#{prescribedMedicine.duration}" 
+                <h:inputText id="duration" value="#{procedureController.prescribedMedicines.duration}" 
                              required="true" styleClass="form-control"/>
+                <h:message for="duration" styleClass="error"/>
             </div>
-			<div class="form-group">
-    <label for="startDate">Start Date</label>
-    <h:inputText id="startDate" value="#{prescribedMedicine.startDate}" styleClass="form-control">
-        <f:convertDateTime pattern="yyyy-MM-dd" />
-    </h:inputText>
-</div>
 
-<div class="form-group">
-    <label for="endDate">End Date</label>
-    <h:inputText id="endDate" value="#{prescribedMedicine.endDate}" styleClass="form-control">
-        <f:convertDateTime pattern="yyyy-MM-dd" />
-    </h:inputText>
-</div>
-			
+            <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <h:inputText id="startDate" value="#{procedureController.prescribedMedicines.startDate}" 
+                             styleClass="form-control">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </h:inputText>
+                <h:message for="startDate" styleClass="error"/>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">End Date</label>
+                <h:inputText id="endDate" value="#{procedureController.prescribedMedicines.endDate}" 
+                             styleClass="form-control">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </h:inputText>
+                <h:message for="endDate" styleClass="error"/>
+            </div>
+
             <div class="form-group">
                 <label for="notes">Notes</label>
-                <h:inputTextarea id="notes" value="#{prescribedMedicine.notes}" 
+                <h:inputTextarea id="notes" value="#{procedureController.prescribedMedicines.notes}" 
                                  cols="30" rows="4" styleClass="form-control"/>
+                <h:message for="notes" styleClass="error"/>
             </div>
 
             <div class="form-group" style="text-align: center;">
-                <h:commandButton value="Add Medicine" action="#{providerController.addPresribedMedicinesController(prescribedMedicine)}" 
+                <h:commandButton value="Add Medicine" 
+                                 action="#{procedureController.addPresribedMedicinesController(procedureController.prescribedMedicines)}" 
                                  styleClass="btn-submit"/>
             </div>
         </h:form>

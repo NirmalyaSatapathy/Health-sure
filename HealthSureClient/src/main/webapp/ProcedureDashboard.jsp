@@ -61,11 +61,11 @@
             
             <h:form>
                 <div class="nav-links">
-                    <h:commandLink value="Add Prescription" action="AddPrescription" styleClass="nav-link" />
+                    <h:commandButton value="Add Prescription" action="#{procedureController.createNewPrescription()}" styleClass="nav-link" />
                 </div>
 
                 <div class="nav-actions">
-                    <h:commandButton value="Submit Procedure" action="#{providerController.procedureSubmit()}" 
+                    <h:commandButton value="Submit Procedure" action="#{procedureController.procedureSubmit()}" 
                                      styleClass="nav-button" />
                 </div>
             </h:form>

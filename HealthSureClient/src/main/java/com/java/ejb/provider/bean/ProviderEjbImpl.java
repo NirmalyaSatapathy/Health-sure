@@ -38,6 +38,8 @@ public class ProviderEjbImpl {
 
 	public String addPrescription(Prescription prescription) throws ClassNotFoundException, SQLException {
 	    // Save via remote EJB
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		sessionMap.put("prescriptionId",prescription.getPrescriptionId());
 		System.out.println("calling remote prescription");
 	    remote.addPrescription(prescription);
 	    System.out.println("prescription added");
@@ -54,5 +56,21 @@ public class ProviderEjbImpl {
 			throws ClassNotFoundException, SQLException {
 		remote.addPrescribedMedicines(prescribedMedicine);
 		return "PrescriptionDashboard?faces-redirect=true";
+	}
+	public String generateNewProcedureId() throws ClassNotFoundException, SQLException
+	{
+		return remote.generateNewProcedureId();
+	}
+	public String generateNewPrescriptionId() throws ClassNotFoundException, SQLException
+	{
+		return remote.generateNewPrescriptionId();
+	}
+	public String generateNewPrescribedMedicineId() throws ClassNotFoundException, SQLException
+	{
+		return remote.generateNewPrescribedMedicineId();
+	}
+	public String generateNewProcedureTestId() throws ClassNotFoundException, SQLException
+	{
+		return remote.generateNewProcedureTestId();
 	}
 }

@@ -56,4 +56,28 @@ public class ProviderBean implements ProviderBeanRemote {
 		return providerDao.addPrescribedMedicines(prescribedMedicines);
 	}
 
+	@Override
+	public String generateNewProcedureId() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		return providerDao.generateNewProcedureId();
+	}
+
+	@Override
+	public String generateNewPrescriptionId() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		return providerDao.generateNewPrescriptionId();
+	}
+
+	@Override
+	public String generateNewPrescribedMedicineId() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		return providerDao.generateNewPrescribedMedicineId();
+	}
+
+	@Override
+	public String generateNewProcedureTestId() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		return providerDao.generateNewProcedureTestId();
+	}
+
 }

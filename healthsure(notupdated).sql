@@ -167,6 +167,7 @@ CREATE TABLE prescribed_medicines (
     prescribed_id VARCHAR(20) PRIMARY KEY,
     prescription_id VARCHAR(20) NOT NULL,
     medicine_name VARCHAR(255) NOT NULL,
+	medicine_type ENUM('tablet', 'syrup','injection', 'drop') NOT NULL,
     dosage VARCHAR(100),
     duration VARCHAR(100),
     notes TEXT,

@@ -8,11 +8,18 @@ private String prescribedId;
 private Prescription prescription;
 private String medicineName;
 private String dosage;
+private MedicineType type;
 private String duration;
 private String notes;
 private Date createdAt;
 private Date startDate;
 private Date endDate;
+public MedicineType getType() {
+	return type;
+}
+public void setType(MedicineType type) {
+	this.type = type;
+}
 public Date getStartDate() {
 	return startDate;
 }

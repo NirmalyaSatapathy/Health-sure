@@ -11,4 +11,8 @@ public interface ProviderDao {
 	public String addPrescription(Prescription prescription) throws ClassNotFoundException, SQLException;
 	public String addTest(ProcedureTest procedureTest) throws ClassNotFoundException, SQLException;
 	public String addPrescribedMedicines(PrescribedMedicines prescribedMedicines) throws ClassNotFoundException, SQLException;
+	public String generateNewPrescriptionId() throws ClassNotFoundException, SQLException;
+	public String generateNewPrescribedMedicineId() throws ClassNotFoundException, SQLException;
+	public String generateNewProcedureTestId() throws ClassNotFoundException, SQLException;
+	String generateNewProcedureId() throws SQLException, ClassNotFoundException;
 }

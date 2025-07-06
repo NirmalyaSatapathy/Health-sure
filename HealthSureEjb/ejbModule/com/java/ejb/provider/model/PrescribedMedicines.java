@@ -7,6 +7,13 @@ public class PrescribedMedicines implements Serializable{
 private String prescribedId;
 private Prescription prescription;
 private String medicineName;
+private MedicineType type;
+public MedicineType getType() {
+	return type;
+}
+public void setType(MedicineType type) {
+	this.type = type;
+}
 private String dosage;
 private String duration;
 private String notes;

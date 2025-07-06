@@ -54,7 +54,7 @@
             width: 100%;
             box-sizing: border-box;
         }
- 
+
         textarea {
             resize: vertical;
             min-height: 60px;
@@ -111,37 +111,36 @@
             <div class="form-grid">
                 <div class="form-group">
                     <h:outputLabel for="procedureId" value="Procedure ID:" />
-                    <h:inputText id="procedureId" value="#{medicalProcedure.procedureId}" required="true" />
-                    <h:message for="procedureId" styleClass="error-message" />
+                    <h:inputText id="procedureId" value="#{procedureController.procedure.procedureId}" readonly="true" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="appointmentId" value="Appointment ID:" />
-                    <h:inputText id="appointmentId" value="#{medicalProcedure.appointment.appointmentId}" required="true" />
+                    <h:inputText id="appointmentId" value="#{procedureController.procedure.appointment.appointmentId}" required="true" />
                     <h:message for="appointmentId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="recipientId" value="Recipient (h_id):" />
-                    <h:inputText id="recipientId" value="#{medicalProcedure.recipient.hId}" required="true" />
+                    <h:inputText id="recipientId" value="#{procedureController.procedure.recipient.hId}" required="true" />
                     <h:message for="recipientId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="providerId" value="Provider ID:" />
-                    <h:inputText id="providerId" value="#{medicalProcedure.provider.providerId}" required="true" />
+                    <h:inputText id="providerId" value="#{procedureController.procedure.provider.providerId}" required="true" />
                     <h:message for="providerId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="doctorId" value="Doctor ID:" />
-                    <h:inputText id="doctorId" value="#{medicalProcedure.doctor.doctorId}" required="true" />
+                    <h:inputText id="doctorId" value="#{procedureController.procedure.doctor.doctorId}" required="true" />
                     <h:message for="doctorId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="procedureDate" value="Procedure Date:" />
-                    <h:inputText id="procedureDate" value="#{medicalProcedure.procedureDate}">
+                    <h:inputText id="procedureDate" value="#{procedureController.procedure.procedureDate}">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
                     <h:message for="procedureDate" styleClass="error-message" />
@@ -149,19 +148,19 @@
 
                 <div class="form-group full-width">
                     <h:outputLabel for="diagnosis" value="Diagnosis:" />
-                    <h:inputTextarea id="diagnosis" value="#{medicalProcedure.diagnosis}" required="true" />
+                    <h:inputTextarea id="diagnosis" value="#{procedureController.procedure.diagnosis}" required="true" />
                     <h:message for="diagnosis" styleClass="error-message" />
                 </div>
 
                 <div class="form-group full-width">
                     <h:outputLabel for="recommendations" value="Recommendations:" />
-                    <h:inputTextarea id="recommendations" value="#{medicalProcedure.recommendations}" />
+                    <h:inputTextarea id="recommendations" value="#{procedureController.procedure.recommendations}" />
                     <h:message for="recommendations" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="fromDate" value="From Date:" />
-                    <h:inputText id="fromDate" value="#{medicalProcedure.fromDate}">
+                    <h:inputText id="fromDate" value="#{procedureController.procedure.fromDate}">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
                     <h:message for="fromDate" styleClass="error-message" />
@@ -169,7 +168,7 @@
 
                 <div class="form-group">
                     <h:outputLabel for="toDate" value="To Date:" />
-                    <h:inputText id="toDate" value="#{medicalProcedure.toDate}">
+                    <h:inputText id="toDate" value="#{procedureController.procedure.toDate}">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
                     <h:message for="toDate" styleClass="error-message" />
@@ -179,7 +178,7 @@
             <div class="button-group">
                 <h:commandButton value="Add Procedure"
                                  styleClass="custom-button green-button"
-                                 action="#{providerController.addMedicalProcedureController(medicalProcedure)}" />
+                                 action="#{procedureController.addMedicalProcedureController(procedureController.procedure)}" />
             </div>
         </h:form>
     </div>

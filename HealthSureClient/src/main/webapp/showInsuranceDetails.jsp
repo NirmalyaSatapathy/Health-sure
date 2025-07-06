@@ -83,11 +83,10 @@
 
         <!-- Submit Button with Empty Label Column -->
         <h:outputLabel />
-        <h:commandButton value="Search" action="#{insuranceController.handleSearch}" />
-
+        <h:commandButton value="Search" action="#{insuranceController.handleSearch()}" />
     </h:panelGrid>
 </h:form>
-
+<h:form><h:commandButton value="Reset" action="#{insuranceController.resetPage()}" immediate="true" /></h:form>
 <!-- TOP MESSAGE -->
 <h:panelGroup rendered="#{not empty insuranceController.topMessage}">
     <h:outputText value="#{insuranceController.pullTopMessage()}" style="color:red; font-weight:bold;" />

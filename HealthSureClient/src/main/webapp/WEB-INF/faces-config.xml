@@ -29,26 +29,7 @@
     <managed-bean-class>com.java.ejb.provider.bean.ProviderEjbImpl</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
-<managed-bean>
-	<managed-bean-name>medicalProcedure</managed-bean-name>
-    <managed-bean-class>com.java.ejb.provider.model.MedicalProcedure</managed-bean-class>
-    <managed-bean-scope>session</managed-bean-scope>
-</managed-bean>
-<managed-bean>
-	<managed-bean-name>prescription</managed-bean-name>
-    <managed-bean-class>com.java.ejb.provider.model.Prescription</managed-bean-class>
-    <managed-bean-scope>session</managed-bean-scope>
-</managed-bean>
-<managed-bean>
-	<managed-bean-name>prescribedMedicine</managed-bean-name>
-    <managed-bean-class>com.java.ejb.provider.model.PrescribedMedicines</managed-bean-class>
-    <managed-bean-scope>session</managed-bean-scope>
-</managed-bean>
-<managed-bean>
-	<managed-bean-name>procedureTest</managed-bean-name>
-    <managed-bean-class>com.java.ejb.provider.model.ProcedureTest</managed-bean-class>
-    <managed-bean-scope>session</managed-bean-scope>
-</managed-bean>
+
  <managed-bean>
         <managed-bean-name>providerDao</managed-bean-name>
         <managed-bean-class>com.java.jsf.provider.daoImpl.ProviderDaoImpl</managed-bean-class>
@@ -60,23 +41,13 @@
     <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
 <managed-bean>
-<managed-bean-name>providerController</managed-bean-name>
-    <managed-bean-class>com.java.jsf.provider.controller.ProviderController</managed-bean-class>
+<managed-bean-name>procedureController</managed-bean-name>
+    <managed-bean-class>com.java.jsf.provider.controller.ProcedureController</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
     <managed-property>
             <property-name>providerEjb</property-name>
             <property-class>com.java.ejb.provider.bean.ProviderEjbImpl</property-class>
             <value>#{providerEjb}</value>
-    </managed-property>
-    <managed-property>
-    <property-name>medicalProcedure</property-name>
-    <property-class>com.java.ejb.provider.model.MedicalProcedure</property-class>
-    <value>#{medicalProcedure}</value>
-</managed-property>
-     <managed-property>
-            <property-name>insuranceDaoImpl</property-name>
-            <property-class>com.java.jsf.provider.daoImpl.InsuranceDaoImpl</property-class>
-            <value>#{insuranceDaoImpl}</value>
     </managed-property>
 </managed-bean>
  <managed-bean>

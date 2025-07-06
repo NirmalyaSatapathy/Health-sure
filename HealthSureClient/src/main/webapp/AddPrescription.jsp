@@ -96,7 +96,7 @@
             <div class="form-grid">
                 <div class="form-group">
                     <h:outputLabel for="prescriptionId" value="Prescription ID:" />
-                    <h:inputText id="prescriptionId" value="#{prescription.prescriptionId}" required="true" />
+                    <h:inputText id="prescriptionId" value="#{procedureController.prescription.prescriptionId}" readonly="true" />
                 </div>
 
                 <div class="form-group">
@@ -121,14 +121,14 @@
             </div>
 			<div class="form-group" style="grid-column: span 2;">
     <h:outputLabel for="writtenOn" value="Written On (Date):" />
-    <h:inputText id="writtenOn" value="#{prescription.writtenOn}" required="true" requiredMessage="Written On date is required.">
+    <h:inputText id="writtenOn" value="#{procedureController.prescription.writtenOn}" required="true" requiredMessage="Written On date is required.">
         <f:convertDateTime pattern="yyyy-MM-dd" />
     </h:inputText>
     <h:message for="writtenOn" style="color:red; font-size:12px;" />
 </div>
 <div class="form-group" style="grid-column: span 2;">
     <h:outputLabel for="startDate" value="Start Date:" />
-    <h:inputText id="startDate" value="#{prescription.startDate}">
+    <h:inputText id="startDate" value="#{procedureController.prescription.startDate}">
         <f:convertDateTime pattern="yyyy-MM-dd" />
     </h:inputText>
      <h:message for="startDate" style="color:red; font-size:12px;" />
@@ -136,7 +136,7 @@
 
 <div class="form-group" style="grid-column: span 2;">
     <h:outputLabel for="endDate" value="End Date:" />
-    <h:inputText id="endDate" value="#{prescription.endDate}">
+    <h:inputText id="endDate" value="#{procedureController.prescription.endDate}">
         <f:convertDateTime pattern="yyyy-MM-dd" />
     </h:inputText>
      <h:message for="endDate" style="color:red; font-size:12px;" />
@@ -144,7 +144,7 @@
             <div class="button-group">
                 <h:commandButton value="Save Prescription"
                                  styleClass="custom-button"
-                                 action="#{providerController.addPrescriptionController(prescription)}" />
+                                 action="#{procedureController.addPrescriptionController(procedureController.prescription)}" />
             </div>
         </h:form>
     </div>

@@ -633,5 +633,11 @@ public class InsuranceController {
         this.topMessage = null;
         return msg;
     }
+    public String resetPage() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "insuranceDetails?faces-redirect=true";
+    }
+
+
 
 }

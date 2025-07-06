@@ -60,14 +60,14 @@
             <div class="dashboard-title">Prescription Dashboard</div>
             
             <h:form>
-                <h:commandLink value="Add Medicine" action="AddPrescribedMedicine" styleClass="action-link" />
+                <h:commandButton value="Add Medicine" action="#{procedureController.createNewPrescribedMedicine()}" />
                 
                 <div class="spacer"></div>
                 
-                <h:commandButton value="Add Test" action="AddTest" 
+                <h:commandButton value="Add Test" action="#{procedureController.createNewProcedureTest()}"
                                  styleClass="action-button" />
                   <div class="spacer"></div>
-                <h:commandButton value="submit" action="#{providerController.prescriptionDetailsSubmit()}" 
+                <h:commandButton value="submit" action="#{procedureController.prescriptionDetailsSubmit()}" 
                                  styleClass="action-button" />
             </h:form>
         </div>

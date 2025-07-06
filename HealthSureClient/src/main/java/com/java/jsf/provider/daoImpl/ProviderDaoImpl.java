@@ -164,6 +164,95 @@ public class ProviderDaoImpl {
 
 		    return ejbRecipientList;
 		}
+	   public List<Date> getPrescriptionDates(String prescriptionId) {
+		    List<Date> dates = new ArrayList<>();
+		    Session session = null;
+		    Transaction tx = null;
+
+		    try {
+		        session = sessionFactory.openSession();
+		        tx = session.beginTransaction();
+
+		        // HQL to get only startDate and endDate
+		        Object[] result = (Object[]) session.createQuery(
+		            "SELECT p.startDate, p.endDate FROM Prescription p WHERE p.prescriptionId = :id"
+		        )
+		        .setParameter("id", prescriptionId)
+		        .uniqueResult();
+
+		        if (result != null) {
+		            dates.add((Date) result[0]); // startDate
+		            dates.add((Date) result[1]); // endDate
+		        }
+
+		        tx.commit();
+		    } catch (Exception e) {
+		        if (tx != null) tx.rollback();
+		        e.printStackTrace();
+		    } finally {
+		        if (session != null) session.close();
+		    }
+
+		    return dates;
+		}
+	   public List<String> getMedicineNamesByPrescriptionId(String prescriptionId) {
+		    List<String> medicineNames = new ArrayList<>();
+		    Session session = null;
+		    Transaction tx = null;
+
+		    try {
+		        session = sessionFactory.openSession();
+		        tx = session.beginTransaction();
+
+		        // HQL to fetch only medicine names
+		        List<String> result = session.createQuery(
+		            "SELECT pm.medicineName FROM PrescribedMedicines pm WHERE pm.prescription.prescriptionId = :prescriptionId"
+		        )
+		        .setParameter("prescriptionId", prescriptionId)
+		        .list();
+
+		        if (result != null) {
+		            medicineNames.addAll(result);
+		        }
+
+		        tx.commit();
+		    } catch (Exception e) {
+		        if (tx != null) tx.rollback();
+		        e.printStackTrace();
+		    } finally {
+		        if (session != null) session.close();
+		    }
+
+		    return medicineNames;
+		}
+	   public Date getPrescriptionWrittenOnDate(String prescriptionId) {
+		    Session session = sessionFactory.openSession();
+		    Date result = null;
+		    try {
+		        result = (Date) session.createQuery("SELECT p.writtenOn FROM Prescription p WHERE p.prescriptionId = :id")
+		                .setParameter("id", prescriptionId)
+		                .uniqueResult();
+		    } finally {
+		        session.close();
+		    }
+		    return result;
+		}
+
+		public Date getProcedureEndDate(String procedureId) {
+		    Session session = sessionFactory.openSession();
+		    Date result = null;
+		    try {
+		        result = (Date) session.createQuery("SELECT p.toDate FROM MedicalProcedure p WHERE p.procedureId = :id")
+		                .setParameter("id", procedureId)
+		                .uniqueResult();
+		    } finally {
+		        session.close();
+		    }
+		    return result;
+		}
+
+
+
 
 	   
 }

@@ -30,15 +30,14 @@
 
         .form-group {
             margin-bottom: 18px;
-            display: flex;
-            flex-direction: column;
         }
 
-        label, h\\:outputLabel {
+        label, h\:outputLabel {
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 5px;
             font-size: 14px;
+            display: block;
         }
 
         input[type="text"], textarea {
@@ -48,6 +47,12 @@
             border-radius: 6px;
             width: 100%;
             box-sizing: border-box;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 2px;
         }
 
         .button-group {
@@ -76,47 +81,50 @@
 <body>
 <f:view>
     <div class="container">
-        <h:form>
+        <h:form prependId="false">
             <h2>Add Procedure Test</h2>
 
-            <!-- Procedure ID -->
+            <!-- Prescription ID (readonly from session) -->
             <div class="form-group">
                 <h:outputLabel for="prescriptionId" value="Prescription ID:" />
-                <h:inputText id="procedureId" value="#{procedureTest.prescription.prescriptionId}" required="true" />
+                <h:inputText id="prescriptionId" value="#{sessionScope.prescriptionId}" readonly="true" />
             </div>
 
             <!-- Test ID -->
             <div class="form-group">
                 <h:outputLabel for="testId" value="Test ID:" />
-                <h:inputText id="testId" value="#{procedureTest.testId}" required="true" />
+                <h:inputText id="testId" value="#{procedureController.procedureTest.testId}" required="true" />
+                <h:message for="testId" styleClass="error-message" />
             </div>
 
             <!-- Test Name -->
             <div class="form-group">
                 <h:outputLabel for="testName" value="Test Name:" />
-                <h:inputText id="testName" value="#{procedureTest.testName}" required="true" />
+                <h:inputText id="testName" value="#{procedureController.procedureTest.testName}" required="true" />
+                <h:message for="testName" styleClass="error-message" />
             </div>
 
             <!-- Test Date -->
             <div class="form-group">
                 <h:outputLabel for="testDate" value="Test Date (yyyy-MM-dd):" />
-                <h:inputText id="testDate" value="#{procedureTest.testDate}">
+                <h:inputText id="testDate" value="#{procedureController.procedureTest.testDate}">
                     <f:convertDateTime pattern="yyyy-MM-dd" />
                 </h:inputText>
-                <h:message for="testDate" style="color:red; font-size:12px;" />
+                <h:message for="testDate" styleClass="error-message" />
             </div>
 
             <!-- Result Summary -->
             <div class="form-group">
                 <h:outputLabel for="resultSummary" value="Result Summary:" />
-                <h:inputTextarea id="resultSummary" value="#{procedureTest.resultSummary}" rows="4" cols="50" />
+                <h:inputTextarea id="resultSummary" value="#{procedureController.procedureTest.resultSummary}" rows="4" cols="50" />
+                <h:message for="resultSummary" styleClass="error-message" />
             </div>
 
             <!-- Submit Button -->
             <div class="button-group">
-                <h:commandButton value="Save Test" 
+                <h:commandButton value="Save Test"
                                  styleClass="custom-button"
-                                 action="#{providerController.addTestController(procedureTest)}" />
+                                 action="#{procedureController.addTestController(procedureController.procedureTest)}" />
             </div>
 
         </h:form>

@@ -21,7 +21,14 @@
         <property name="duration" column="duration" type="string" />
         
         <property name="notes" column="notes" type="string" />
-        
+         <property name="type">
+      <column name="medicine_type" sql-type="enum('tablet', 'syrup','injection', 'drop')" not-null="true"/>
+      <type name="org.hibernate.type.EnumType">
+        <param name="enumClass">com.java.jsf.provider.model.MedicineType</param>
+        <param name="type">12</param>
+        <param name="useNamed">true</param>
+      </type>
+    </property>
         <property name="createdAt" column="created_at" type="timestamp" />
 		 <property name="startDate" column="start_date" type="timestamp" not-null="true"/>
       <property name="endDate" column="end_date" type="timestamp" not-null="true"/>
