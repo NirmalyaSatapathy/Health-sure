@@ -115,31 +115,41 @@
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="appointmentId" value="Appointment ID:" />
+                    <h:outputLabel for="appointmentId">
+                        Appointment ID: <span style="color:red">*</span>
+                    </h:outputLabel>
                     <h:inputText id="appointmentId" value="#{procedureController.procedure.appointment.appointmentId}" required="true" />
                     <h:message for="appointmentId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="recipientId" value="Recipient (h_id):" />
+                    <h:outputLabel for="recipientId">
+                        Recipient (h_id): <span style="color:red">*</span>
+                    </h:outputLabel>
                     <h:inputText id="recipientId" value="#{procedureController.procedure.recipient.hId}" required="true" />
                     <h:message for="recipientId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="providerId" value="Provider ID:" />
+                    <h:outputLabel for="providerId">
+                        Provider ID: <span style="color:red">*</span>
+                    </h:outputLabel>
                     <h:inputText id="providerId" value="#{procedureController.procedure.provider.providerId}" required="true" />
                     <h:message for="providerId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="doctorId" value="Doctor ID:" />
+                    <h:outputLabel for="doctorId">
+                        Doctor ID: <span style="color:red">*</span>
+                    </h:outputLabel>
                     <h:inputText id="doctorId" value="#{procedureController.procedure.doctor.doctorId}" required="true" />
                     <h:message for="doctorId" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="procedureDate" value="Procedure Date:" />
+                    <h:outputLabel for="procedureDate">
+                        Procedure Date: <span style="color:red">*</span>
+                    </h:outputLabel>
                     <h:inputText id="procedureDate" value="#{procedureController.procedure.procedureDate}">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
@@ -147,7 +157,9 @@
                 </div>
 
                 <div class="form-group full-width">
-                    <h:outputLabel for="diagnosis" value="Diagnosis:" />
+                    <h:outputLabel for="diagnosis">
+                        Diagnosis: <span style="color:red">*</span>
+                    </h:outputLabel>
                     <h:inputTextarea id="diagnosis" value="#{procedureController.procedure.diagnosis}" required="true" />
                     <h:message for="diagnosis" styleClass="error-message" />
                 </div>
@@ -159,16 +171,20 @@
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="fromDate" value="From Date:" />
-                    <h:inputText id="fromDate" value="#{procedureController.procedure.fromDate}">
+                    <h:outputLabel for="fromDate">
+                        From Date: <span style="color:red">*</span>
+                    </h:outputLabel>
+                    <h:inputText id="fromDate" value="#{procedureController.procedure.fromDate}" required="true">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
                     <h:message for="fromDate" styleClass="error-message" />
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="toDate" value="To Date:" />
-                    <h:inputText id="toDate" value="#{procedureController.procedure.toDate}">
+                    <h:outputLabel for="toDate">
+                        To Date: <span style="color:red">*</span>
+                    </h:outputLabel>
+                    <h:inputText id="toDate" value="#{procedureController.procedure.toDate}" required="true">
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
                     <h:message for="toDate" styleClass="error-message" />

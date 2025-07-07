@@ -32,5 +32,6 @@
           <mapping resource="com/java/jsf/pharmacy/mapping/DispensedMedicine.hbm.xml"/>
           <mapping resource="com/java/jsf/pharmacy/mapping/DispensedEquipment.hbm.xml"/>
             <mapping resource="com/java/jsf/admin/mapping/PaymentHistory.hbm.xml"/>
+            <mapping resource="com/java/jsf/provider/mapping/PrescribedMedicines.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

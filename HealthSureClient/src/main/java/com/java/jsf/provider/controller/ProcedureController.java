@@ -229,6 +229,9 @@ public class ProcedureController {
 
      // 2. Check for duplicate medicine in same prescription
         List<String> existingMedicineNames = providerDao.getMedicineNamesByPrescriptionId(prescriptionId);
+        System.out.println(existingMedicineNames);
+        System.out.println(medicineName);
+        System.out.println("________"+prescriptionId);
         for (String existingName : existingMedicineNames) {
             if (existingName.equalsIgnoreCase(medicineName)) {
                 context.addMessage("medicineName", new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -270,7 +273,7 @@ public class ProcedureController {
 
         if (!dosage.trim().toLowerCase().matches(pattern)) {
             context.addMessage("dosage", new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Dosage format is invalid for type: " + type+" give with "+pattern, null));
+                    "Dosage format is invalid for type: " + type, null));
             return null;
         }
 

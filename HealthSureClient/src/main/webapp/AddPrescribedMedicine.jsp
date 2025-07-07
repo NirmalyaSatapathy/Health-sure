@@ -70,21 +70,21 @@
             </div>
 
             <div class="form-group">
-                <label for="prescriptionId">Prescription ID</label>
+                <label for="prescriptionId">Prescription ID <span style="color:red">*</span></label>
                 <h:inputText id="prescriptionId" value="#{sessionScope.prescriptionId}" 
                              required="true" styleClass="form-control"/>
                 <h:message for="prescriptionId" styleClass="error"/>
             </div>
 
             <div class="form-group">
-                <label for="medicineName">Medicine Name</label>
+                <label for="medicineName">Medicine Name <span style="color:red">*</span></label>
                 <h:inputText id="medicineName" value="#{procedureController.prescribedMedicines.medicineName}" 
                              required="true" styleClass="form-control"/>
                 <h:message for="medicineName" styleClass="error"/>
             </div>
 
             <div class="form-group">
-                <label for="type">Medicine Type</label>
+                <label for="type">Medicine Type <span style="color:red">*</span></label>
                 <h:selectOneMenu id="type" value="#{procedureController.prescribedMedicines.type}" 
                                  styleClass="form-control" required="true">
                     <f:selectItem itemLabel="-- Select Type --" itemValue="" />
@@ -97,32 +97,32 @@
             </div>
 
             <div class="form-group">
-                <label for="dosage">Dosage</label>
+                <label for="dosage">Dosage(In whole number) <span style="color:red">*</span></label>
                 <h:inputText id="dosage" value="#{procedureController.prescribedMedicines.dosage}" 
                              required="true" styleClass="form-control"/>
                 <h:message for="dosage" styleClass="error"/>
             </div>
 
             <div class="form-group">
-                <label for="duration">Duration</label>
+                <label for="duration">Duration(In days) <span style="color:red">*</span></label>
                 <h:inputText id="duration" value="#{procedureController.prescribedMedicines.duration}" 
                              required="true" styleClass="form-control"/>
                 <h:message for="duration" styleClass="error"/>
             </div>
 
             <div class="form-group">
-                <label for="startDate">Start Date</label>
+                <label for="startDate">Start Date <span style="color:red">*</span></label>
                 <h:inputText id="startDate" value="#{procedureController.prescribedMedicines.startDate}" 
-                             styleClass="form-control">
+                             styleClass="form-control" required="true">
                     <f:convertDateTime pattern="yyyy-MM-dd" />
                 </h:inputText>
                 <h:message for="startDate" styleClass="error"/>
             </div>
 
             <div class="form-group">
-                <label for="endDate">End Date</label>
+                <label for="endDate">End Date <span style="color:red">*</span></label>
                 <h:inputText id="endDate" value="#{procedureController.prescribedMedicines.endDate}" 
-                             styleClass="form-control">
+                             styleClass="form-control" required="true">
                     <f:convertDateTime pattern="yyyy-MM-dd" />
                 </h:inputText>
                 <h:message for="endDate" styleClass="error"/>

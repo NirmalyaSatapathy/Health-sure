@@ -85,6 +85,12 @@
         .blue-button:hover {
             background-color: #0277bd;
         }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 3px;
+        }
     </style>
 </head>
 <body>
@@ -101,7 +107,7 @@
 
                 <div class="form-group">
                     <h:outputLabel for="procedureId" value="Procedure ID:" />
-                  <h:inputText id="procedureId" value="#{sessionScope.procedureId}" readonly="true" />
+                    <h:inputText id="procedureId" value="#{sessionScope.procedureId}" readonly="true" />
                 </div>
 
                 <div class="form-group">
@@ -111,36 +117,46 @@
 
                 <div class="form-group">
                     <h:outputLabel for="providerId" value="Provider ID:" />
-                   <h:inputText id="providerId" value="#{sessionScope.providerId}" readonly="true" />
+                    <h:inputText id="providerId" value="#{sessionScope.providerId}" readonly="true" />
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="doctorId" value="Doctor ID:" />
-                   <h:inputText id="doctorId" value="#{sessionScope.doctorId}" readonly="true" />
+                    <h:inputText id="doctorId" value="#{sessionScope.doctorId}" readonly="true" />
                 </div>
             </div>
-			<div class="form-group" style="grid-column: span 2;">
-    <h:outputLabel for="writtenOn" value="Written On (Date):" />
-    <h:inputText id="writtenOn" value="#{procedureController.prescription.writtenOn}" required="true" requiredMessage="Written On date is required.">
-        <f:convertDateTime pattern="yyyy-MM-dd" />
-    </h:inputText>
-    <h:message for="writtenOn" style="color:red; font-size:12px;" />
-</div>
-<div class="form-group" style="grid-column: span 2;">
-    <h:outputLabel for="startDate" value="Start Date:" />
-    <h:inputText id="startDate" value="#{procedureController.prescription.startDate}">
-        <f:convertDateTime pattern="yyyy-MM-dd" />
-    </h:inputText>
-     <h:message for="startDate" style="color:red; font-size:12px;" />
-</div>
 
-<div class="form-group" style="grid-column: span 2;">
-    <h:outputLabel for="endDate" value="End Date:" />
-    <h:inputText id="endDate" value="#{procedureController.prescription.endDate}">
-        <f:convertDateTime pattern="yyyy-MM-dd" />
-    </h:inputText>
-     <h:message for="endDate" style="color:red; font-size:12px;" />
-</div>			
+            <div class="form-group" style="grid-column: span 2;">
+                <h:outputLabel for="writtenOn">
+                    Written On (Date): <span style="color:red">*</span>
+                </h:outputLabel>
+                <h:inputText id="writtenOn" value="#{procedureController.prescription.writtenOn}"
+                             required="true" requiredMessage="Written On date is required.">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </h:inputText>
+                <h:message for="writtenOn" styleClass="error-message" />
+            </div>
+
+            <div class="form-group" style="grid-column: span 2;">
+                <h:outputLabel for="startDate">
+                    Start Date: <span style="color:red">*</span>
+                </h:outputLabel>
+                <h:inputText id="startDate" value="#{procedureController.prescription.startDate}" required="true">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </h:inputText>
+                <h:message for="startDate" styleClass="error-message" />
+            </div>
+
+            <div class="form-group" style="grid-column: span 2;">
+                <h:outputLabel for="endDate">
+                    End Date: <span style="color:red">*</span>
+                </h:outputLabel>
+                <h:inputText id="endDate" value="#{procedureController.prescription.endDate}" required="true">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </h:inputText>
+                <h:message for="endDate" styleClass="error-message" />
+            </div>
+
             <div class="button-group">
                 <h:commandButton value="Save Prescription"
                                  styleClass="custom-button"

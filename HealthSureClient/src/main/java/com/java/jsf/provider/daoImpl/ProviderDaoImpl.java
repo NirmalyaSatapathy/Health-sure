@@ -222,7 +222,7 @@ public class ProviderDaoImpl {
 		    } finally {
 		        if (session != null) session.close();
 		    }
-
+		    System.out.println(medicineNames);
 		    return medicineNames;
 		}
 	   public Date getPrescriptionWrittenOnDate(String prescriptionId) {
